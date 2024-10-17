@@ -1,5 +1,6 @@
 import requests
 from time import gmtime, strftime
+from datetime import datetime, timedelta, timezone
 
 # Function to read questions file
 def read_questions_from_file(filename):
@@ -30,7 +31,9 @@ def post_question(question):
 # Main function to read questions, send requests, and store answers
 def query():
     questions_file = 'data/sample_questions.txt' 
-    output_file = f"data/generated_answers{strftime("%Y-%m-%d %H:%M:%S", gmtime())}.txt" 
+    local_time = datetime.now(timezone.utc) + timedelta(hours=2)
+
+    output_file = f"data/generated_answers{local_time.strftime('%Y-%m-%d %H:%M:%S')}.txt" 
 
     # Read questions from the file
     questions = read_questions_from_file(questions_file)
