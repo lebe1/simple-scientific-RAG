@@ -20,7 +20,7 @@ services:
       - ./app:/code/app
       - ./requirements.txt:/code/requirements.txt
     ports:
-      - "5432:80"
+      - "8000:80"
     deploy:
       restart_policy:
         condition: on-failure
