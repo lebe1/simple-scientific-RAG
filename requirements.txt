@@ -1,3 +1,4 @@
 fastapi[standard]
 requests
 ollama
+uvicorn[standard]

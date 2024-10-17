@@ -28,24 +28,32 @@ Make sure you have Python 3.7+ installed on your machine.
     pip install -r requirements.txt
     ```
 
-4. **Run Ollama on docker and install llama3.2 model**:  
+4. **Build Dockerfile**:
+   
+   ```bash
+   docker compose build
+   ```
+
+5. **Run docker container**:  
 
    Run docker-compose.yml to pull the required image:
    ```bash
    docker compose up -d
    ```
+6. **Install Ollama model llama3.2**:
 
    Pull the required model llama3.2 by running:
+
    ```bash
    docker exec -it ollama ollama run llama3.2
    ```
 
 ## Running the application after setup instructions
 
-To start the FastAPI development server, run the following command:
+Once everything is set up, simply start the whole application with:
 
 ```bash
-fastapi dev main.py
+docker compose up -d
 ```
 
 
