@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from model import chat
 
 # Create FastAPI instance
 app = FastAPI()
@@ -11,6 +12,6 @@ class PromptRequest(BaseModel):
 # POST route for prompt
 @app.post("/api/prompt")
 async def handle_prompt(request: PromptRequest):
-    return {"answer": f"{request.question}"}
-
+    answer = chat(request.question)
+    return {"answer": f"{answer}"}
 

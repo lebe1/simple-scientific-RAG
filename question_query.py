@@ -29,7 +29,7 @@ def post_question(question):
     
 # Main function to read questions, send requests, and store answers
 def query():
-    questions_file = 'data/questions.txt' 
+    questions_file = 'data/sample_questions.txt' 
     output_file = f"data/generated_answers{strftime("%Y-%m-%d %H:%M:%S", gmtime())}.txt" 
 
     # Read questions from the file

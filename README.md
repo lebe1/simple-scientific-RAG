@@ -28,13 +28,26 @@ Make sure you have Python 3.7+ installed on your machine.
     pip install -r requirements.txt
     ```
 
-## Running the Development Server
+4. **Run Ollama on docker and install llama3.2 model**:  
+
+   Run docker-compose.yml to pull the required image:
+   ```bash
+   docker compose up -d
+   ```
+
+   Pull the required model llama3.2 by running:
+   ```bash
+   docker exec -it ollama ollama run llama3.2
+   ```
+
+## Running the application after setup instructions
 
 To start the FastAPI development server, run the following command:
 
 ```bash
 fastapi dev main.py
 ```
+
 
 ### Testing the API
 
@@ -57,4 +70,5 @@ python question_query.py
 
 ## Data
 The data of the legal basis can be found under https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=LrW&Gesetzesnummer=20000006
+
 
