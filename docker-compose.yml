@@ -10,20 +10,20 @@ services:
       - ollama:/root/.ollama
     restart: always  
 
-  fastapi_server:
-    build:
-      context: .    
-    image: python:3.12
-    container_name: fastapi_server
-    working_dir: /code
-    volumes:
-      - ./app:/code/app
-      - ./requirements.txt:/code/requirements.txt
-    ports:
-      - "8000:80"
-    deploy:
-      restart_policy:
-        condition: on-failure
+  # fastapi_server:
+  #   build:
+  #     context: .    
+  #   image: python:3.12
+  #   container_name: fastapi_server
+  #   working_dir: /code
+  #   volumes:
+  #     - ./app:/code/app
+  #     - ./requirements.txt:/code/requirements.txt
+  #   ports:
+  #     - "8001:80"
+  #   deploy:
+  #     restart_policy:
+  #       condition: on-failure
 
 volumes:
   ollama:

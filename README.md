@@ -73,6 +73,10 @@ Or by opening the built-in Swagger of FastAPI via `http://127.0.0.1:8000/docs`
 For now, this only works when the fastapi server is called outside of docker. If the fastapi server is running on docker, you need to stop it first, to be able to execute the following command:
 
 ```bash
+cd app
+```
+
+```bash
 uvicorn main:app --reload
 ```
 
@@ -85,4 +89,6 @@ python question_query.py
 ## Data
 The data of the legal basis can be found under https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=LrW&Gesetzesnummer=20000006
 
-
+# Fancy TODOs
+- Mount data directory in fastapi server container
+- Create API call to trigger question_query.py
