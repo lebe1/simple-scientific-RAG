@@ -8,7 +8,7 @@ class Search:
     def __init__(self):
         # Initialize Elasticsearch client
         # TODO: Take credentials from .env file
-        self.es = Elasticsearch('http://localhost:9200', http_auth=('elastic', '12jsCbnU'))  
+        self.es = Elasticsearch('http://localhost:9200', http_auth=('', ''))  
         client_info = self.es.info()
         print('Connected to Elasticsearch!')
         pprint(client_info.body)
