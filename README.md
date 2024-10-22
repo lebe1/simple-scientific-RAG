@@ -48,6 +48,12 @@ Make sure you have Python 3.7+ installed on your machine.
    docker exec -it ollama ollama run llama3.2
    ```
 
+7. **Install model for chunking**:
+
+    ```bash
+    python -m spacy download en_core_web_sm
+    ```
+
 ## Running the application after setup instructions
 
 Once everything is set up, simply start the whole application with:
@@ -56,13 +62,25 @@ Once everything is set up, simply start the whole application with:
 docker compose up -d
 ```
 
+Run elasticsearch database
+```bash
+./start.sh
+```
+
+Run fastapi server locally:
+```bash
+uvicorn main:app --reload
+```
 
 ### Testing the API
 
 There are two ways for testing the API.  
 Either by sending the following POST-request using `curl`:
 ```bash
-curl -X POST "http://127.0.0.1:8000/api/prompt" -H "Content-Type: application/json" -d '{"question": "What is a book?"}'
+curl -X POST "http://127.0.0.1:8000/api/prompt" -H "Content-Type: application/json" -d '{"question": "Wie hoch darf ein Gebäude in Bauklasse I gemäß Artikel IV in Wien sein??"}'
+```
+```bash
+curl -X POST "http://127.0.0.1:8000/api/search" -H "Content-Type: application/json" -d '{"query": "Wie hoch darf ein Gebäude in Bauklasse I gemäß Artikel IV in Wien sein?"}'
 ```
 Or by opening the built-in Swagger of FastAPI via `http://127.0.0.1:8000/docs`
 
@@ -92,3 +110,8 @@ The data of the legal basis can be found under https://www.ris.bka.gv.at/Geltend
 # Fancy TODOs
 - Mount data directory in fastapi server container
 - Create API call to trigger question_query.py
+- Clean up starting processes into one single docker-compose.yml
+- Work with logs instead of prints
+- Use try catch phrases for better error detection
+- Add CI for linting
+- Add tests?
