@@ -108,6 +108,7 @@ python question_query.py
 The data of the legal basis can be found under https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=LrW&Gesetzesnummer=20000006
 
 # Fancy TODOs
+- Store everything in the database to use variables in RAM as less as possible
 - Mount data directory in fastapi server container
 - Create API call to trigger question_query.py
 - Clean up starting processes into one single docker-compose.yml

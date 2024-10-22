@@ -7,8 +7,8 @@ import gc
 class Search:
     def __init__(self):
         # Initialize Elasticsearch client
-        # TODO: Take API key from .env file
-        self.es = Elasticsearch('http://localhost:9200', api_key="c3VDSHFwSUJLNC1XWnBHYUUtaEo6RnZ6RUVYY19SODZHY1pCeTFJRzNwQQ==")  
+        # TODO: Take credentials from .env file
+        self.es = Elasticsearch('http://localhost:9200', http_auth=('elastic', '12jsCbnU'))  
         client_info = self.es.info()
         print('Connected to Elasticsearch!')
         pprint(client_info.body)
@@ -20,7 +20,6 @@ class Search:
         with open('../data/legal-basis.txt', 'r', encoding='utf-8') as file:
             text = file.read()
 
-        print(f"Read {len(text)} characters from the legal basis text.")
         # Chunk the text
         chunks = self.chunk_text(text)
 
@@ -99,15 +98,19 @@ class Search:
         })
 
         # Extract and return the relevant chunks
-        retrieved_chunks = [hit['_source'] for hit in response['hits']['hits']]
-
-        print(f"Found {len(retrieved_chunks)} relevant chunks!")
+        retrieved_chunks = [hit['_source']['text'] for hit in response['hits']['hits']]
 
         best_chunk, score = self.rank_chunks_with_cross_encoder(query, retrieved_chunks)
 
-        print(f"Best chunk score: {score:.2f}")
+        # Save memory by clearing the embeddings
+        del response
+        gc.collect()
 
-        return best_chunk['text']
+        # Save best chunk into text file
+        with open('../data/best_chunk.txt', 'w', encoding='utf-8') as file:
+            file.write(best_chunk)
+
+        return best_chunk
     
     def rank_chunks_with_cross_encoder(self, query, retrieved_chunks):
         """Rank the retrieved chunks based on their relevance to the query using SBERT Cross-Encoder."""
