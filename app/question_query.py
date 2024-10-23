@@ -13,7 +13,7 @@ def read_questions_from_file(filename):
 
 # Function to make POST request with the question and return the response
 def post_question(question):
-    url = "http://localhost:8000/api/prompt"  
+    url = "http://localhost:8000/api/rag"  
     headers = {'Content-Type': 'application/json'} 
     payload = {'question': question}  
     try:

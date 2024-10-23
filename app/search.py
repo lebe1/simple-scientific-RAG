@@ -3,12 +3,15 @@ from pprint import pprint
 import spacy
 from sentence_transformers import SentenceTransformer, CrossEncoder
 import gc
+import os
 
 class Search:
     def __init__(self):
+        # Load password from environment variables
+        password = os.getenv('ES_LOCAL_PASSWORD')
+
         # Initialize Elasticsearch client
-        # TODO: Take credentials from .env file
-        self.es = Elasticsearch('http://localhost:9200', http_auth=('', ''))  
+        self.es = Elasticsearch('http://localhost:9200', http_auth=('elastic', password))  
         client_info = self.es.info()
         print('Connected to Elasticsearch!')
         pprint(client_info.body)
