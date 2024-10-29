@@ -75,6 +75,7 @@ docker compose up -d
 
 Run fastapi server locally:
 ```bash
+cd app;
 uvicorn main:app --reload
 ```
 
