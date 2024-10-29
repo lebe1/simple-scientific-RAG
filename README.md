@@ -56,8 +56,10 @@ Make sure you have Python 3.7+ installed on your machine.
    Pull the required model llama3.2 by running:
 
    ```bash
-   docker exec -it ollama ollama run llama3.2
+   docker exec ollama ollama run llama3.2
    ```
+
+   If you would like to step inside the container, you can add the `-it` flags to the `docker exec` command.
 
 7. **Install model for chunking**:
 
