@@ -4,9 +4,27 @@ import spacy
 from sentence_transformers import SentenceTransformer, CrossEncoder
 import gc
 import os
+from pathlib import Path
+
+def load_env_file(filepath):
+    with open(filepath) as f:
+        for line in f:
+            # Ignore comments and empty lines
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            # Parse the key-value pair
+            key, value = line.split('=', 1)
+            os.environ[key.strip()] = value.strip()
 
 class Search:
     def __init__(self):
+        # Define the path to the .env file
+        env_path = Path(__file__).resolve().parent.parent / '.env'
+
+        # Load the .env file
+        load_env_file(env_path)
+
         # Load password from environment variables
         password = os.getenv('ES_LOCAL_PASSWORD')
 

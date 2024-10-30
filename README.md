@@ -29,9 +29,20 @@ Make sure you have Python 3.7+ installed on your machine.
     ```
 
 4. **Build Dockerfile**:
+
+   > **Note**: To use the docker-compose command below, you need to have a valid `.env` file in the directory. You can use the `env.example` as template (`cp .env.example .env`)
    
    ```bash
    docker compose build
+   ```
+
+   > **Note**: In some Linux distributions and depending on the docker version, `docker compose` is not recognized as a command. In such case, download the binary and proceed with `docker-compose`:
+
+   ```bash
+   sudo curl -L "https://github.com/docker/compose/releases/download/v2.29.2/docker-compose-$(uname -s)-$(uname -m)"  -o /usr/local/bin/docker-compose
+   sudo mv /usr/local/bin/docker-compose /usr/bin/docker-compose
+   sudo chmod +x /usr/bin/docker-compose   
+   docker-compose build   
    ```
 
 5. **Run docker container**:  
@@ -45,8 +56,10 @@ Make sure you have Python 3.7+ installed on your machine.
    Pull the required model llama3.2 by running:
 
    ```bash
-   docker exec -it ollama ollama run llama3.2
+   docker exec ollama ollama run llama3.2
    ```
+
+   If you would like to step inside the container, you can add the `-it` flags to the `docker exec` command.
 
 7. **Install model for chunking**:
 
@@ -64,6 +77,7 @@ docker compose up -d
 
 Run fastapi server locally:
 ```bash
+cd app;
 uvicorn main:app --reload
 ```
 
