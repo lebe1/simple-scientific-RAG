@@ -64,7 +64,7 @@ Make sure you have Python 3.7+ installed on your machine.
 7. **Install model for chunking**:
 
     ```bash
-    python -m spacy download en_core_web_sm
+    python -m spacy download de_core_news_lg
     ```
 
 ## Running the application after setup instructions
