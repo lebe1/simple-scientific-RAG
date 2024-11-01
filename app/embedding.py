@@ -60,24 +60,25 @@ class Embedding:
 
     @staticmethod
     def save_chunks(chunks):
-        with open('../data/chunks.pkl', 'wb') as f:
+        with open(os.path.join(FILE_PATH, '../data/chunks.pkl'), 'wb') as f:
             pickle.dump(chunks, f)
 
     @staticmethod
     def save_embeddings(embeddings):
-        np.save('../data/embeddings.npy', embeddings)
+        np.save(os.path.join(FILE_PATH, '../data/embeddings.npy'), embeddings)
 
     @staticmethod
-    def load_chunks(path='../data/chunks.pkl'):
+    def load_chunks(path= os.path.join(FILE_PATH, '../data/chunks.pkl')):
         with open(path, 'rb') as f:
             chunks = pickle.load(f)
         return chunks
 
     @staticmethod
-    def load_embeddings(path='../data/embeddings.npy'):
+    def load_embeddings(path= os.path.join(FILE_PATH, '../data/embeddings.npy')):
         embeddings = np.load(path)
         return embeddings
 
 if __name__ == "__main__":
     Embedding()
+
 
