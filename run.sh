@@ -9,6 +9,6 @@ docker-compose build
 docker-compose up -d
 docker exec ollama ollama run llama3.2
 python -m spacy download de_core_news_lg
-docker compose up -d
+docker-compose up -d
 cd app;
 uvicorn main:app --reload
