@@ -1,10 +1,10 @@
 from elasticsearch import Elasticsearch
 from pprint import pprint
-import spacy
 from sentence_transformers import SentenceTransformer, CrossEncoder
 import gc
 import os
 from pathlib import Path
+import torch
 
 def load_env_file(filepath):
     with open(filepath) as f:
@@ -35,14 +35,14 @@ class Search:
         pprint(client_info.body)
 
         # Load the Sentence-BERT model
-        self.model = SentenceTransformer('all-MiniLM-L6-v2')
+        self.model = SentenceTransformer('jinaai/jina-embeddings-v2-base-de')
 
         # Read the legal basis text
         with open('../data/legal-basis.txt', 'r', encoding='utf-8') as file:
             text = file.read()
 
         # Chunk the text
-        chunks = self.chunk_text(text)
+        chunks = self.chunk_text(text, spacy_model='de_core_news_lg')
 
         # Generate embeddings for each chunk
         embeddings = self.create_embeddings(chunks)
@@ -51,38 +51,30 @@ class Search:
         self.index_chunks(chunks, embeddings)
 
 
-    def chunk_text(self, text, max_size_kb=128):
-        """Chunk the input text into smaller parts of max_size_kb."""
-        # Load the spaCy model
-        nlp = spacy.load("en_core_web_sm")
-        max_size_bytes = max_size_kb * 1024  # Convert KB to Bytes
-        chunks = []
-        current_chunk = []
-
-        for sentence in nlp(text).sents:
-            current_chunk.append(sentence.text)
-            current_chunk_size = sum(len(s.encode('utf-8')) for s in current_chunk)
-
-            if current_chunk_size >= max_size_bytes:
-                # Append all but the last sentence
-                chunks.append(" ".join(current_chunk[:-1]))  
-                # Start a new chunk with the last sentence
-                current_chunk = [current_chunk[-1]]  
-
-            # Add any remaining sentences as a final chunk
-        if current_chunk:
-            chunks.append(" ".join(current_chunk))
-
-        return chunks        
 
     def create_embeddings(self, chunks):
         """Generate embeddings for each chunk using Sentence-BERT.""" 
 
         # Catch edge case if there are no chunks
         if not chunks:
-            return []  
+            return []
 
-        embeddings = self.model.encode(chunks, show_progress_bar=True)
+        os.environ["PYTORCH_CUDA_ALLOC_CONF"] = 'max_split_size_mb:256'
+        #os.environ["PYTORCH_CUDA_ALLOC_CONF"] = 'expandable_segments:True'
+        #with torch.no_grad():
+        #embeddings = self.model.encode(chunks, show_progress_bar=True, batch_size=8)
+        #embeddings = []
+        #batch_size = 8
+        #for i in range(0, len(chunks), batch_size):
+        #    batch_chunks = chunks[i:i + batch_size]
+        #    batch_embeddings = self.model.encode(batch_chunks, show_progress_bar=True, batch_size=batch_size)
+        #    embeddings.extend(batch_embeddings)
+        #    torch.cuda.empty_cache()  # Clear memory after each batch
+
+        from transformers import AutoModel
+        model = AutoModel.from_pretrained('jinaai/jina-embeddings-v2-base-de', trust_remote_code=True,
+                                          torch_dtype=torch.bfloat16)
+        embeddings = model.encode(chunks)
 
         return embeddings   
     
