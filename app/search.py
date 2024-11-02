@@ -5,6 +5,7 @@ import gc
 import os
 from pathlib import Path
 import torch
+from embedding import Embedding
 
 def load_env_file(filepath):
     with open(filepath) as f:
@@ -19,6 +20,7 @@ def load_env_file(filepath):
 
 class Search:
     def __init__(self):
+        self.embedding = Embedding(model_name='jinaai/jina-embeddings-v2-base-de')
         # Define the path to the .env file
         env_path = Path(__file__).resolve().parent.parent / '.env'
 
@@ -33,50 +35,6 @@ class Search:
         client_info = self.es.info()
         print('Connected to Elasticsearch!')
         pprint(client_info.body)
-
-        # Load the Sentence-BERT model
-        self.model = SentenceTransformer('jinaai/jina-embeddings-v2-base-de')
-
-        # Read the legal basis text
-        with open('../data/legal-basis.txt', 'r', encoding='utf-8') as file:
-            text = file.read()
-
-        # Chunk the text
-        chunks = self.chunk_text(text, spacy_model='de_core_news_lg')
-
-        # Generate embeddings for each chunk
-        embeddings = self.create_embeddings(chunks)
-
-        # Index the chunks into Elasticsearch
-        self.index_chunks(chunks, embeddings)
-
-
-
-    def create_embeddings(self, chunks):
-        """Generate embeddings for each chunk using Sentence-BERT.""" 
-
-        # Catch edge case if there are no chunks
-        if not chunks:
-            return []
-
-        os.environ["PYTORCH_CUDA_ALLOC_CONF"] = 'max_split_size_mb:256'
-        #os.environ["PYTORCH_CUDA_ALLOC_CONF"] = 'expandable_segments:True'
-        #with torch.no_grad():
-        #embeddings = self.model.encode(chunks, show_progress_bar=True, batch_size=8)
-        #embeddings = []
-        #batch_size = 8
-        #for i in range(0, len(chunks), batch_size):
-        #    batch_chunks = chunks[i:i + batch_size]
-        #    batch_embeddings = self.model.encode(batch_chunks, show_progress_bar=True, batch_size=batch_size)
-        #    embeddings.extend(batch_embeddings)
-        #    torch.cuda.empty_cache()  # Clear memory after each batch
-
-        from transformers import AutoModel
-        model = AutoModel.from_pretrained('jinaai/jina-embeddings-v2-base-de', trust_remote_code=True,
-                                          torch_dtype=torch.bfloat16)
-        embeddings = model.encode(chunks)
-
-        return embeddings   
     
     def index_chunks(self, chunks, embeddings):
         """Index the chunks into Elasticsearch with their embeddings."""
@@ -90,7 +48,7 @@ class Search:
     def search(self, query, top_k=30):
         """Search for relevant chunks in Elasticsearch."""
         # Generate embedding for the query
-        query_embedding = self.model.encode(query).tolist()
+        query_embedding = self.embedding.model.encode(query).tolist()
 
         # Perform a vector search on Elasticsearch
         response = self.es.search(index='documents', body={
