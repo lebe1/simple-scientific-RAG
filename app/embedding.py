@@ -10,28 +10,23 @@ from processor import Processor
 FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 class Embedding:
-    def __init__(self):
-        # Load the Sentence-BERT model
-        self.model = SentenceTransformer('jinaai/jina-embeddings-v2-base-de')
+    def __init__(self, model_name):
+        pass
 
-
-        # Read the legal basis text
-        legal_text_path = os.path.join(FILE_PATH, '../data/legal-basis.txt')
-        with open(legal_text_path, 'r', encoding='utf-8') as file:
-            text = file.read()
+    def main(self):
 
         # Chunk the text
-        chunks = Processor().chunk_text(text, spacy_model='de_core_news_lg')
+        chunks = Processor().chunk_text(self.text, spacy_model='de_core_news_lg')
 
         # Generate embeddings for each chunk
-        embeddings = self.create(chunks)
+        embeddings = self.create_embeddings(chunks, model_name)
 
         # Store chunks and embeddings
         self.save_chunks(chunks)
         self.save_embeddings(embeddings)
 
 
-    def create(self, chunks, batch_size=8):
+    def create_embeddings(self, chunks, model_name, batch_size=8):
         """Generate embeddings for each chunk using Sentence-BERT."""
 
         # Catch edge case if there are no chunks
@@ -40,8 +35,6 @@ class Embedding:
 
         os.environ["PYTORCH_CUDA_ALLOC_CONF"] = 'max_split_size_mb:256'
 
-        # model_name = 'jinaai/jina-embeddings-v2-base-de'
-        model_name='jinaai/jina-embeddings-v2-small-en'
         model = AutoModel.from_pretrained(model_name, trust_remote_code=True,
                                           torch_dtype=torch.bfloat16)
 
@@ -79,6 +72,9 @@ class Embedding:
         return embeddings
 
 if __name__ == "__main__":
-    Embedding()
+    # model_name='jinaai/jina-embeddings-v2-small-en'
+    model_name = 'jinaai/jina-embeddings-v2-base-de'
+    embedding = Embeddings(model_name=model_name)
+    embedding.main()
 
 
