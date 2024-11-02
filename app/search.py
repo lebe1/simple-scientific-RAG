@@ -86,7 +86,7 @@ class Search:
     def rank_chunks_with_cross_encoder(self, query, retrieved_chunks):
         """Rank the retrieved chunks based on their relevance to the query using SBERT Cross-Encoder."""
         # Load the Cross-Encoder model for scoring
-        cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
+        cross_encoder = CrossEncoder('cross-encoder/msmarco-MiniLM-L12-en-de-v1', max_length=512)
 
         # Create (query, chunk) pairs for Cross-Encoder scoring
         query_chunk_pairs = [[query, chunk] for chunk in retrieved_chunks]
