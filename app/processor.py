@@ -31,7 +31,7 @@ class Processor:
         if current_chunk:
             chunks.append(" ".join(current_chunk))
 
-        self.save_chunks_to_output_dir(chunks, self.spacy_model)
+        self.save_chunks_to_output_dir(chunks)
 
         return chunks
 
