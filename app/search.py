@@ -98,8 +98,14 @@ class Search:
         chunk_score_pairs = list(zip(retrieved_chunks, scores))
         chunk_score_pairs.sort(key=lambda x: x[1], reverse=True)  # Sort by score in descending order
 
+        chunks_subset = chunk_score_pairs[:10]
+        # Merge best chunks
+        best_chunks = " ".join(text for text, _ in chunks_subset)
+        # Calculate the average score
+        average_score = sum(score for _, score in chunks_subset) / len(chunks_subset)
+
         # Return the top-ranked chunk and its score
-        return chunk_score_pairs[0]  # Return the best chunk
+        return best_chunks, average_score  # Return the best chunk
     
     def __del__(self):
         """Close the Elasticsearch connection."""
