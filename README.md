@@ -75,6 +75,12 @@ Once everything is set up, simply start the whole application with:
 docker compose up -d
 ```
 
+Create the index from the legal text:
+
+```bash
+python app/workflow.py update-es-index
+```
+
 Run fastapi server locally:
 ```bash
 cd app;

@@ -10,5 +10,6 @@ docker-compose up -d
 docker exec ollama ollama run llama3.2
 python -m spacy download de_core_news_lg
 docker-compose up -d
+python app/workflow.py update-es-index
 cd app;
 uvicorn main:app --reload
