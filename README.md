@@ -99,6 +99,17 @@ curl -X POST "http://127.0.0.1:8000/api/search" -H "Content-Type: application/js
 ```
 Or by opening the built-in Swagger of FastAPI via `http://127.0.0.1:8000/docs`
 
+### Recreating the embeddings
+
+In case the current datafile `data/legal-basis.txt` is changed or extended, you have to re-create the embeddings as follows:
+
+```bash
+python workflow.py create-embeddings
+```
+
+It takes the datafile `data/legal-basis.txt` as input, chunks it into 4kb parts, and computes the embeddings using `jinaai/jina-embeddings-v2-base-de`.  
+Afterwards, the results of the current datafile are stored in the numpy array `data/jina-embeddings-v2-base-de-4kb.npy` to later on load it easily.
+**Important note** The embedding model is quite huge, so it takes very long and lots of resources to compute. 
 
 
 ## Running the automated question query
