@@ -6,21 +6,21 @@ Make sure you have Python 3.7+ installed on your machine.
 
 ## Setup Instructions
 
-1. **Clone the repository** (if applicable):
+1. **Clone the repository**
 
     ```bash
     git clone git@github.com:lebe1/simple-scientific-RAG.git
     cd simple-scientific-RAG
     ```
 
-2. **Create a virtual environment** (optional but recommended):
+2. **Create a virtual environment** (optional but recommended)
 
     ```bash
     python -m venv venv
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
     ```
 
-3. **Install dependencies**:
+3. **Install dependencies**
 
     Before running the project, install all the required dependencies using `pip`:
 
@@ -28,7 +28,7 @@ Make sure you have Python 3.7+ installed on your machine.
     pip install -r requirements.txt
     ```
 
-4. **Build Dockerfile**:
+4. **Build Dockerfile**
 
    > **Note**: To use the docker-compose command below, you need to have a valid `.env` file in the directory. You can use the `env.example` as template (`cp .env.example .env`)
    
@@ -45,13 +45,13 @@ Make sure you have Python 3.7+ installed on your machine.
    docker-compose build   
    ```
 
-5. **Run docker container**:  
+5. **Run docker container**
 
    Run docker-compose.yml to pull the required image:
    ```bash
    docker compose up -d
    ```
-6. **Install Ollama model llama3.2**:
+6. **Install Ollama model llama3.2**
 
    Pull the required model llama3.2 by running:
 
@@ -61,10 +61,16 @@ Make sure you have Python 3.7+ installed on your machine.
 
    If you would like to step inside the container, you can add the `-it` flags to the `docker exec` command.
 
-7. **Install model for chunking**:
+7. **Install model for chunking**
 
     ```bash
     python -m spacy download de_core_news_lg
+    ```
+
+8. **Create the index from the legal text**
+
+    ```bash
+    python app/workflow.py update-es-index
     ```
 
 ## Running the application after setup instructions
@@ -73,12 +79,6 @@ Once everything is set up, simply start the whole application with:
 
 ```bash
 docker compose up -d
-```
-
-Create the index from the legal text:
-
-```bash
-python app/workflow.py update-es-index
 ```
 
 Run fastapi server locally:
