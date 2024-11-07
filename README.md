@@ -108,7 +108,8 @@ python workflow.py create-embeddings
 ```
 
 It takes the datafile `data/legal-basis.txt` as input, chunks it into 4kb parts, and computes the embeddings using `jinaai/jina-embeddings-v2-base-de`.  
-Afterwards, the results of the current datafile are stored in the numpy array `data/jina-embeddings-v2-base-de-4kb.npy` to later on load it easily.
+Afterwards, the results of the current datafile are stored in the numpy array `data/embeddings.npy` to later on load it easily. We copied the `data/embeddings.npy` to `data/jina-embeddings-v2-base-de-4kb` to store the embeddings created from 4kb chunks as backup/reference. 
+
 **Important note** The embedding model is quite huge, so it takes very long and lots of resources to compute. 
 
 
