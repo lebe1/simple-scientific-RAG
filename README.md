@@ -6,21 +6,21 @@ Make sure you have Python 3.7+ installed on your machine.
 
 ## Setup Instructions
 
-1. **Clone the repository** (if applicable):
+1. **Clone the repository**
 
     ```bash
     git clone git@github.com:lebe1/simple-scientific-RAG.git
     cd simple-scientific-RAG
     ```
 
-2. **Create a virtual environment** (optional but recommended):
+2. **Create a virtual environment** (optional but recommended)
 
     ```bash
     python -m venv venv
     source venv/bin/activate  # On Windows use `venv\Scripts\activate`
     ```
 
-3. **Install dependencies**:
+3. **Install dependencies**
 
     Before running the project, install all the required dependencies using `pip`:
 
@@ -28,7 +28,7 @@ Make sure you have Python 3.7+ installed on your machine.
     pip install -r requirements.txt
     ```
 
-4. **Build Dockerfile**:
+4. **Build Dockerfile**
 
    > **Note**: To use the docker-compose command below, you need to have a valid `.env` file in the directory. You can use the `env.example` as template (`cp .env.example .env`)
    
@@ -45,13 +45,13 @@ Make sure you have Python 3.7+ installed on your machine.
    docker-compose build   
    ```
 
-5. **Run docker container**:  
+5. **Run docker container**
 
    Run docker-compose.yml to pull the required image:
    ```bash
    docker compose up -d
    ```
-6. **Install Ollama model llama3.2**:
+6. **Install Ollama model llama3.2**
 
    Pull the required model llama3.2 by running:
 
@@ -61,10 +61,16 @@ Make sure you have Python 3.7+ installed on your machine.
 
    If you would like to step inside the container, you can add the `-it` flags to the `docker exec` command.
 
-7. **Install model for chunking**:
+7. **Install model for chunking**
 
     ```bash
-    python -m spacy download en_core_web_sm
+    python -m spacy download de_core_news_lg
+    ```
+
+8. **Create the index from the legal text**
+
+    ```bash
+    python app/workflow.py update-es-index
     ```
 
 ## Running the application after setup instructions
@@ -93,6 +99,18 @@ curl -X POST "http://127.0.0.1:8000/api/search" -H "Content-Type: application/js
 ```
 Or by opening the built-in Swagger of FastAPI via `http://127.0.0.1:8000/docs`
 
+### Recreating the embeddings
+
+In case the current datafile `data/legal-basis.txt` is changed or extended, you have to re-create the embeddings as follows:
+
+```bash
+python workflow.py create-embeddings
+```
+
+It takes the datafile `data/legal-basis.txt` as input, chunks it into 4kb parts, and computes the embeddings using `jinaai/jina-embeddings-v2-base-de`.  
+Afterwards, the results of the current datafile are stored in the numpy array `data/embeddings.npy` to later on load it easily. We copied the `data/embeddings.npy` to `data/jina-embeddings-v2-base-de-4kb` to store the embeddings created from 4kb chunks as backup/reference. 
+
+**Important note** The embedding model is quite huge, so it takes very long and lots of resources to compute. 
 
 
 ## Running the automated question query
@@ -125,6 +143,3 @@ The data of the legal basis can be found under https://www.ris.bka.gv.at/Geltend
 - Use try catch phrases for better error detection
 - Add CI for linting
 - Add tests?
-
-# Actual TODOs
-- Finish dataset with 10 questions
