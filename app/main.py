@@ -11,9 +11,6 @@ model = Model()
 class PromptRequest(BaseModel):
     question: str
 
-class SearchQuery(BaseModel):
-    query: str
-
 # POST route for prompt
 @app.post("/api/prompt")
 async def handle_prompt(request: PromptRequest):
@@ -22,9 +19,9 @@ async def handle_prompt(request: PromptRequest):
 
 # POST route for search
 @app.post("/api/search")
-async def handle_search(search: SearchQuery):
+async def handle_search(search: PromptRequest):
     es = Search()
-    results = es.search(search.query)
+    results = es.search(search.question)
     return {"results": results}
 
 # POST route for RAG prompt

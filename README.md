@@ -95,7 +95,7 @@ Either by sending the following POST-request using `curl`:
 curl -X POST "http://127.0.0.1:8000/api/rag" -H "Content-Type: application/json" -d '{"question": "Wie hoch darf ein Gebäude in Bauklasse I gemäß Artikel IV in Wien sein?"}'
 ```
 ```bash
-curl -X POST "http://127.0.0.1:8000/api/search" -H "Content-Type: application/json" -d '{"query": "Wie hoch darf ein Gebäude in Bauklasse I gemäß Artikel IV in Wien sein?"}'
+curl -X POST "http://127.0.0.1:8000/api/search" -H "Content-Type: application/json" -d '{"question": "Wie hoch darf ein Gebäude in Bauklasse I gemäß Artikel IV in Wien sein?"}'
 ```
 Or by opening the built-in Swagger of FastAPI via `http://127.0.0.1:8000/docs`
 
@@ -143,7 +143,3 @@ The data of the legal basis can be found under https://www.ris.bka.gv.at/Geltend
 - Use try catch phrases for better error detection
 - Add CI for linting
 - Add tests?
-
-# Actual TODOs
-- Finish dataset with 10 questions
-- Fix question_query.py
