@@ -10,5 +10,5 @@ class Model:
     def rag(self, question):
         es = Search()
         retrieved_text = es.search(question)
-        response = ollama.chat(model='llama3.2', messages=[{ 'role': 'user', 'content': f"Beantworte die folgende Frage {question}. \n Nutze dafür folgende Information: {retrieved_text}" }])
+        response = ollama.chat(model='llama3.2', messages=[{ 'role': 'user', 'content': f"Du hast folgende Information: {retrieved_text}. \n Welcher Teil davon ist relevant, um folgende Frage zu beantworten: {question}. " }])
         return response['message']['content']

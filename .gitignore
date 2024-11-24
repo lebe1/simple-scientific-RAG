@@ -162,3 +162,6 @@ cython_debug/
 #.idea/
 
 data/generated_answers*
+
+# Temporary outputs used for performance comparison
+output/
