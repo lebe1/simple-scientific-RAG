@@ -92,7 +92,7 @@ uvicorn main:app --reload
 There are two ways for testing the API.  
 Either by sending the following POST-request using `curl`:
 ```bash
-curl -X POST "http://127.0.0.1:8000/api/rag" -H "Content-Type: application/json" -d '{"question": "Wie hoch darf ein Gebäude in Bauklasse I gemäß Artikel IV in Wien sein?"}'
+curl -X POST "http://127.0.0.1:8000/api/rag" -H "Content-Type: application/json" -d '{"question": "Wie hoch darf ein Gebäude in Bauklasse I gemäß Artikel IV in Wien sein?", "model_name":"jinaai/jina-embeddings-v2-base-de", "spacy_model":"de_core_news_lg", "chunk_size_in_kb":8}'
 ```
 ```bash
 curl -X POST "http://127.0.0.1:8000/api/search" -H "Content-Type: application/json" -d '{"query": "Wie hoch darf ein Gebäude in Bauklasse I gemäß Artikel IV in Wien sein?"}'
@@ -104,6 +104,7 @@ Or by opening the built-in Swagger of FastAPI via `http://127.0.0.1:8000/docs`
 In case the current datafile `data/legal-basis.txt` is changed or extended, you have to re-create the embeddings as follows:
 
 ```bash
+# This assumes you have the venv environment enabled and you are inside the app/ directory
 python workflow.py create-embeddings
 ```
 
