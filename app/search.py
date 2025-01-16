@@ -4,8 +4,8 @@ from sentence_transformers import SentenceTransformer, CrossEncoder
 import gc
 import os
 from pathlib import Path
-import torch
 from embedding import Embedding
+import numpy as np
 
 def load_env_file(filepath):
     with open(filepath) as f:
@@ -19,8 +19,8 @@ def load_env_file(filepath):
             os.environ[key.strip()] = value.strip()
 
 class Search:
-    def __init__(self):
-        self.embedding = Embedding(model_name='jinaai/jina-embeddings-v2-base-de')
+    def __init__(self, embedding):
+        self.embedding = embedding
         # Define the path to the .env file
         env_path = Path(__file__).resolve().parent.parent / '.env'
 
@@ -35,15 +35,47 @@ class Search:
         client_info = self.es.info()
         print('Connected to Elasticsearch!')
         pprint(client_info.body)
-    
-    def index_chunks(self, chunks, embeddings):
+
+    def index_chunks(self, chunks, embeddings, index_name):
         """Index the chunks into Elasticsearch with their embeddings."""
-        for i, chunk in enumerate(chunks):
-            doc = {
-                'text': chunk,
-                'embedding': embeddings[i].tolist()  # Convert to list for JSON serialization
+        # Create index with mapping if it doesn't exist
+        if not self.es.indices.exists(index=index_name):
+            mapping = {
+                "mappings": {
+                    "properties": {
+                        "text": {"type": "text"},
+                        "embedding": {"type": "dense_vector", "dims": len(embeddings[0])}
+                    }
+                }
             }
-            self.es.index(index='documents', id=i, document=doc)
+            self.es.indices.create(index=index_name, body=mapping)
+            print(f"Created new index: {index_name}")
+
+        skipped_chunks = 0
+        indexed_chunks = 0
+
+        # Index the documents
+        for i, chunk in enumerate(chunks):
+            # Convert embedding to list
+            embedding_list = embeddings[i].tolist()
+
+            # Check if embedding is valid (not all zeros and no NaN values)
+            if np.any(embeddings[i]) and not np.any(np.isnan(embeddings[i])):
+                doc = {
+                    'text': chunk,
+                    'embedding': embedding_list
+                }
+                try:
+                    self.es.index(index=index_name, id=indexed_chunks, document=doc)
+                    indexed_chunks += 1
+                    if indexed_chunks % 100 == 0:  # Print progress every 100 documents
+                        print(f"Indexed {indexed_chunks}/{len(chunks)} valid chunks")
+                except Exception as e:
+                    print(f"Error indexing chunk {i}: {str(e)}")
+                    skipped_chunks += 1
+            else:
+                print(f"Skipping chunk {i} due to invalid embedding (zero magnitude or NaN values)")
+                skipped_chunks += 1
 
     def search(self, query, top_k=30):
         """Search for relevant chunks in Elasticsearch."""
@@ -51,7 +83,7 @@ class Search:
         query_embedding = self.embedding.model.encode(query).tolist()
 
         # Perform a vector search on Elasticsearch
-        response = self.es.search(index='documents', body={
+        response = self.es.search(index=self.embedding.index_name, body={
             'query': {
                 'script_score': {
                     'query': {
