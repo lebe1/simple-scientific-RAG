@@ -1,66 +1,100 @@
 import os
 import torch
-from torch.cuda.amp import autocast
-import pickle
 import numpy as np
-from transformers import AutoModel
-from sentence_transformers import SentenceTransformer
-from processor import Processor
+from transformers import AutoModel, AutoTokenizer
+
 
 FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = 'max_split_size_mb:256'
 
+
 class Embedding:
-    def __init__(self, model_name):
-        self.model = AutoModel.from_pretrained(model_name, trust_remote_code=True,
-                                               torch_dtype=torch.bfloat16)
+    def __init__(self, model_name, spacy_model, chunk_size_in_kb):
+        # Set device
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        print(f"Using device: {self.device}")
 
-    def main(self):
+        # Initialize model and tokenizer
+        self.model = AutoModel.from_pretrained(
+            model_name,
+            trust_remote_code=True,
+            torch_dtype=torch.bfloat16
+        ).to(self.device)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
 
-        # Chunk the text
-        chunks = Processor().chunk_text(self.text, spacy_model='de_core_news_lg')
+        # Set model to evaluation mode
+        self.model.eval()
 
-        # Generate embeddings for each chunk
-        embeddings = self.create_embeddings(chunks)
+        # Store configuration
+        self.spacy_model = spacy_model
+        self.chunk_size_in_kb = chunk_size_in_kb
+        self.model_name_escaped = model_name.replace('/', '-')
+        self.file_name = f'../data/{self.model_name_escaped}__with{self.chunk_size_in_kb}kbchunks__spacymodel_{self.spacy_model}.npy'
+        self.index_name = f"{self.model_name_escaped}__chunks{chunk_size_in_kb}kb__{spacy_model}"
 
-        # Store chunks and embeddings
-        self.save_chunks(chunks)
-        self.save_embeddings(embeddings)
-
+    def mean_pooling(self, model_output, attention_mask):
+        """Perform mean pooling on token embeddings."""
+        token_embeddings = model_output[0]  # First element of model_output contains token embeddings
+        input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
+        return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
 
     def create_embeddings(self, chunks, batch_size=8):
-        """Generate embeddings for each chunk using Sentence-BERT."""
-
-        # Catch edge case if there are no chunks
+        """Generate embeddings for each chunk using the transformer model."""
         if not chunks:
             return []
 
         embeddings = []
-        with torch.no_grad():  # Disable gradient calculations
-            for i in range(0, len(chunks), batch_size):
+        total_chunks = len(chunks)
+
+        with torch.no_grad():
+            for i in range(0, total_chunks, batch_size):
                 batch_chunks = chunks[i:i + batch_size]
-                with autocast():  # Enable mixed precision
-                    batch_embeddings = self.model.encode(batch_chunks)  # Generate embeddings for the batch
-                embeddings.extend(batch_embeddings)  # Append batch embeddings to the main list
 
-                # Clear CUDA cache after each batch to free memory
-                torch.cuda.empty_cache()
+                # Print progress
+                print(f"Processing batch {i // batch_size + 1}/{(total_chunks + batch_size - 1) // batch_size}")
 
-        return embeddings
+                # Tokenize the batch
+                encoded_input = self.tokenizer(
+                    batch_chunks,
+                    padding=True,
+                    truncation=True,
+                    max_length=512,
+                    return_tensors='pt'
+                ).to(self.device)
 
-    @staticmethod
-    def save(embeddings):
-        np.save(os.path.join(FILE_PATH, '../data/embeddings.npy'), embeddings)
+                # Generate embeddings
+                outputs = self.model(**encoded_input)
 
-    @staticmethod
-    def load(path= os.path.join(FILE_PATH, '../data/embeddings.npy')):
+                # Mean pooling
+                batch_embeddings = self.mean_pooling(
+                    outputs,
+                    encoded_input['attention_mask']
+                )
+
+                # Move to CPU and convert to numpy
+                batch_embeddings = batch_embeddings.cpu().numpy()
+                embeddings.extend(batch_embeddings)
+
+                # Clear CUDA cache if using GPU
+                if torch.cuda.is_available():
+                    torch.cuda.empty_cache()
+
+        print(f"Created embeddings for {len(embeddings)} chunks")
+        # Quick verification
+        print(f"Sample embedding shape: {embeddings[0].shape}")
+        print(f"Sample embedding non-zero values: {np.count_nonzero(embeddings[0])}")
+
+        return np.array(embeddings)
+
+    def save(self, embeddings):
+        path = os.path.join(FILE_PATH, self.file_name)
+        np.save(path, embeddings)
+        print(f"Embeddings saved to: {path}")
+        # Verify saved embeddings
+        print(f"Saved embedding array shape: {embeddings.shape}")
+
+    def load(self):
+        path = os.path.join(FILE_PATH, self.file_name)
         embeddings = np.load(path)
+        print(f"Loaded embedding array shape: {embeddings.shape}")
         return embeddings
-
-if __name__ == "__main__":
-    # model_name='jinaai/jina-embeddings-v2-small-en'
-    model_name = 'jinaai/jina-embeddings-v2-base-de'
-    embedding = Embedding(model_name=model_name)
-    embedding.main()
-
-
