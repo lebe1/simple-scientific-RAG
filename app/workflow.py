@@ -4,21 +4,22 @@ from processor import Processor
 from embedding import Embedding
 from search import Search
 FILE_PATH = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = '../data/legal-basis.txt'
 
 class Workflow:
-    def __init__(self, model_name='jinaai/jina-embeddings-v2-base-de', spacy_model='de_core_news_lg'):
-        self.processor = Processor(spacy_model=spacy_model)
-        self.embedding = Embedding(model_name=model_name)
-        self.es = Search()
+    def __init__(self, model_name='jinaai/jina-embeddings-v2-base-de', spacy_model='de_core_news_lg', chunk_size_in_kb=4, index_name="documents"):
+        self.processor = Processor(spacy_model=spacy_model, chunk_size_in_kb=chunk_size_in_kb)
+        self.embedding = Embedding(spacy_model=spacy_model, chunk_size_in_kb=chunk_size_in_kb, model_name=model_name)
+        self.es = Search(embedding=self.embedding)
 
     def create_new_embeddings(self):
         # Read the legal basis text
-        legal_text_path = os.path.join(FILE_PATH, '../data/legal-basis.txt')
+        legal_text_path = os.path.join(FILE_PATH, DATA_PATH)
         with open(legal_text_path, 'r', encoding='utf-8') as file:
             text = file.read()
 
         # Chunk the text
-        chunks = self.processor.chunk_text(text=text, max_size_kb=4)
+        chunks = self.processor.chunk_text(text=text)
         self.processor.save(chunks)
 
         # Generate embeddings for each chunk
@@ -28,25 +29,52 @@ class Workflow:
     def update_es_index(self):
         chunks = self.processor.load()
         embeddings = self.embedding.load()
-        self.es.index_chunks(chunks, embeddings)
+        self.es.index_chunks(chunks, embeddings, self.embedding.index_name)
 
         return chunks, embeddings
+
 
 if __name__ == "__main__":
     # Set up argument parsing
     parser = argparse.ArgumentParser(description="Choose workflow operation")
-    parser.add_argument('operation', choices=['create-embeddings', 'update-es-index'], help="Operation to perform: 'create' or 'update'")
+
+    # Required argument for operation
+    parser.add_argument(
+        'operation',
+        choices=['create-embeddings', 'update-es-index'],
+        help="Operation to perform: 'create-embeddings' or 'update-es-index'"
+    )
+
+    # Optional arguments with defaults
+    parser.add_argument(
+        '--model-name',
+        type=str,
+        default='jinaai/jina-embeddings-v2-base-de',
+        help="Name of the embedding model (default: jinaai/jina-embeddings-v2-base-de)"
+    )
+
+    parser.add_argument(
+        '--spacy-model',
+        type=str,
+        default='de_core_news_lg',
+        help="Name of the spaCy model (default: de_core_news_lg)"
+    )
+
+    parser.add_argument(
+        '--chunk-size',
+        type=int,
+        default=8,
+        help="Chunk size in KB (default: 8)"
+    )
 
     args = parser.parse_args()
 
-    # English
-    # model_name='jinaai/jina-embeddings-v2-small-en'
-    # spacy_model = 'en_core_web_sm'
-
-    # German
-    model_name = 'jinaai/jina-embeddings-v2-base-de'
-    spacy_model = 'de_core_news_lg'
-    workflow = Workflow(model_name=model_name, spacy_model=spacy_model)
+    # Initialize workflow with provided or default arguments
+    workflow = Workflow(
+        model_name=args.model_name,
+        spacy_model=args.spacy_model,
+        chunk_size_in_kb=args.chunk_size
+    )
 
     # Run the appropriate method based on user input
     if args.operation == 'create-embeddings':
