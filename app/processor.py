@@ -6,14 +6,15 @@ import pickle
 FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 class Processor:
-    def __init__(self, spacy_model='de_core_news_lg'):
+    def __init__(self, spacy_model='de_core_news_lg', chunk_size_in_kb=4):
         self.spacy_model = spacy_model
+        self.chunk_size_in_kb = chunk_size_in_kb
 
-    def chunk_text(self, text, max_size_kb=128):
-        """Chunk the input text into smaller parts of max_size_kb."""
+    def chunk_text(self, text):
+        """Chunk the input text into smaller parts of self.chunk_size_in_kb."""
         # Load the spaCy model
         nlp = spacy.load(self.spacy_model)
-        max_size_bytes = max_size_kb * 1024  # Convert KB to Bytes
+        max_size_bytes = self.chunk_size_in_kb * 1024  # Convert KB to Bytes
         chunks = []
         current_chunk = []
 
@@ -35,24 +36,23 @@ class Processor:
 
         return chunks
 
-    @staticmethod
-    def save(chunks):
-        with open(os.path.join(FILE_PATH, '../data/chunks.pkl'), 'wb') as f:
+    def save(self, chunks):
+        file_name = f'../data/chunks-{self.chunk_size_in_kb}kb.pkl'
+        path = os.path.join(FILE_PATH, file_name)
+        with open(path, 'wb') as f:
             pickle.dump(chunks, f)
 
-    @staticmethod
-    def load(path=os.path.join(FILE_PATH, '../data/chunks.pkl')):
+    def load(self):
+        file_name = f'../data/chunks-{self.chunk_size_in_kb}kb.pkl'
+        path = os.path.join(FILE_PATH, file_name)
         with open(path, 'rb') as f:
             chunks = pickle.load(f)
         return chunks
 
     def save_chunks_to_output_dir(self, chunks):
-        """Save the list of chunks to a file in the ../output directory."""
-        output_dir = Path(os.path.join(FILE_PATH, '../output'))
-        output_dir.mkdir(parents=True, exist_ok=True)
-
-        output_file = output_dir / f"{self.spacy_model}_chunks.txt"
-        with open(output_file, "w", encoding="utf-8") as file:
+        file_name = f"../data/{self.spacy_model}_{self.chunk_size_in_kb}kb_chunks.txt"
+        path = os.path.join(FILE_PATH, file_name)
+        with open(path, "w", encoding="utf-8") as file:
             for chunk in chunks:
                 file.write(chunk + "\n\n")
-        print(f"Chunks saved to {output_file}")
+        print(f"Chunks saved to {path}")
