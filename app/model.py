@@ -6,6 +6,8 @@ class Model:
         return response['message']['content']
 
     def rag(self, question, es):
+        print(f"Accessing RAG system...")
         retrieved_text = es.search(question)
+        print(f"Passing the text to the LLM...")
         response = ollama.chat(model='llama3.2', messages=[{ 'role': 'user', 'content': f"Du hast folgende Information: {retrieved_text}. \n Welcher Teil davon ist relevant, um folgende Frage zu beantworten: {question}. " }])
         return response['message']['content']
