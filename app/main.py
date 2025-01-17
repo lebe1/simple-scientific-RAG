@@ -32,8 +32,7 @@ async def handle_prompt(request: PromptRequest):
 async def handle_search(search: SearchQuery):
     embedding = Embedding(spacy_model=search.spacy_model, chunk_size_in_kb=search.chunk_size_in_kb, model_name=search.model_name)
     es = Search(embedding=embedding)
-    index_name = f"{es.embedding.model_name_escaped}__chunks{search.chunk_size_in_kb}kb__{search.spacy_model}"
-    results = es.search(search.query, index_name)
+    results = es.search(search.query)
     return {"results": results}
 
 # POST route for RAG prompt
