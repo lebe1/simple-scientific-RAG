@@ -80,8 +80,10 @@ class Search:
     def search(self, query, top_k=30):
         """Search for relevant chunks in Elasticsearch."""
         # Generate embedding for the query
-        query_embedding = self.embedding.model.encode(query).tolist()
+        print(f"Generating embedding for the query...")
+        query_embedding = self.embedding.create_embeddings([query], batch_size=1)[0].tolist()
 
+        print(f"Embedding creation finished, performing vector search...")
         # Perform a vector search on Elasticsearch
         response = self.es.search(index=self.embedding.index_name, body={
             'query': {
@@ -103,6 +105,7 @@ class Search:
         # Extract and return the relevant chunks
         retrieved_chunks = [hit['_source']['text'] for hit in response['hits']['hits']]
 
+        print(f"Reranking relevant chunks...")
         best_chunk, score = self.rank_chunks_with_cross_encoder(query, retrieved_chunks)
 
         # Save memory by clearing the embeddings
