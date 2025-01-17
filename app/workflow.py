@@ -63,8 +63,8 @@ if __name__ == "__main__":
     parser.add_argument(
         '--chunk-size',
         type=int,
-        default=8,
-        help="Chunk size in KB (default: 8)"
+        default=4,
+        help="Chunk size in KB (default: 4)"
     )
 
     args = parser.parse_args()
