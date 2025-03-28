@@ -2,6 +2,13 @@ version: "3"
 
 services:
   ollama:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     image: ollama/ollama
     container_name: ollama
     ports:
