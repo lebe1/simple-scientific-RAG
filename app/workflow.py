@@ -7,9 +7,9 @@ FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = '../data/legal-basis.txt'
 
 class Workflow:
-    def __init__(self, model_name='jinaai/jina-embeddings-v2-base-de', spacy_model='de_core_news_lg', chunk_size_in_kb=4, index_name="documents"):
+    def __init__(self, model='jinaai/jina-embeddings-v2-base-de', spacy_model='de_core_news_lg', chunk_size_in_kb=4, index_name="documents"):
         self.processor = Processor(spacy_model=spacy_model, chunk_size_in_kb=chunk_size_in_kb)
-        self.embedding = Embedding(spacy_model=spacy_model, chunk_size_in_kb=chunk_size_in_kb, model_name=model_name)
+        self.embedding = Embedding(spacy_model=spacy_model, chunk_size_in_kb=chunk_size_in_kb, model=model)
         self.es = Search(embedding=self.embedding)
 
     def create_new_embeddings(self):
@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
     # Initialize workflow with provided or default arguments
     workflow = Workflow(
-        model_name=args.model_name,
+        model=args.model,
         spacy_model=args.spacy_model,
         chunk_size_in_kb=args.chunk_size
     )
