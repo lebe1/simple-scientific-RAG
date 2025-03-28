@@ -74,6 +74,8 @@ If Docker containers are not running yet, start them again with:
 docker compose up -d
 ```
 
+**Note:** If you want to improve your runtime and you have access to a GPU, comment out the commented lines of code in the `docker-compose.yml`
+
 Run fastapi server locally:
 
 ```bash

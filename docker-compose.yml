@@ -2,13 +2,13 @@ version: "3"
 
 services:
   ollama:
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
     image: ollama/ollama
     container_name: ollama
     ports:
@@ -17,6 +17,7 @@ services:
       - ollama:/root/.ollama
     restart: always  
 
+  # TODO Make this work or remove it before submission
   # fastapi_server:
   #   build:
   #     context: .    
