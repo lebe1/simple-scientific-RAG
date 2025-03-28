@@ -97,6 +97,7 @@ curl -X POST "http://127.0.0.1:8000/api/rag" -H "Content-Type: application/json"
 ```bash
 curl -X POST "http://127.0.0.1:8000/api/search" -H "Content-Type: application/json" -d '{"query": "Wie hoch darf ein Gebäude in Bauklasse I gemäß Artikel IV in Wien sein?", "model_name":"jinaai/jina-embeddings-v2-base-de", "spacy_model":"de_core_news_lg", "chunk_size_in_kb":8}'
 ```
+
 Or by opening the built-in Swagger of FastAPI via `http://127.0.0.1:8000/docs`
 
 ### Recreating the embeddings
@@ -111,7 +112,7 @@ python workflow.py create-embeddings
 It takes the datafile `data/legal-basis.txt` as input, chunks it into 4kb parts, and computes the embeddings using `jinaai/jina-embeddings-v2-base-de`.  
 Afterwards, the results of the current datafile are stored in the numpy array `data/embeddings.npy` to later on load it easily. We copied the `data/embeddings.npy` to `data/jina-embeddings-v2-base-de-4kb` to store the embeddings created from 4kb chunks as backup/reference. 
 
-**Important note** The embedding model is quite huge, so it takes very long and lots of resources to compute. 
+**Important note** The embedding model is quite huge, so it takes very long and lots of resources to compute, when it is run on a normal CPU. 
 
 
 ## Running the automated question query
@@ -144,7 +145,3 @@ The data of the legal basis can be found under https://www.ris.bka.gv.at/Geltend
 - Use try catch phrases for better error detection
 - Add CI for linting
 - Add tests?
-
-# Actual TODOs
-- Finish dataset with 10 questions
-- Fix question_query.py

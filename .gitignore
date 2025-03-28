@@ -162,6 +162,7 @@ cython_debug/
 #.idea/
 
 data/generated_answers*
+data/best_chunk.txt
 
 # Temporary outputs used for performance comparison
 output/
