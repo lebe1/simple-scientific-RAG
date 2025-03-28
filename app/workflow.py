@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
     # Optional arguments with defaults
     parser.add_argument(
-        '--model-name',
+        '--model',
         type=str,
         default='jinaai/jina-embeddings-v2-base-de',
         help="Name of the embedding model (default: jinaai/jina-embeddings-v2-base-de)"
