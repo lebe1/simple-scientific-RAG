@@ -40,5 +40,5 @@ async def handle_search(search: SearchQuery):
 async def handle_rag(request: PromptRequest):
     embedding = Embedding(spacy_model=request.spacy_model, chunk_size_in_kb=request.chunk_size_in_kb, model=request.model)
     es = Search(embedding=embedding)
-    answer = model.rag(question=request.question, es=es)
-    return {"answer": f"{answer}"}
+    rag_output = model.rag(question=request.question, es=es)
+    return {"context": f"{rag_output[1]}", "answer": f"{rag_output[0]}"}

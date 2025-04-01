@@ -1,6 +1,32 @@
 import requests
 from datetime import datetime, timedelta, timezone
-import nltk
+import ollama
+from deepeval.models.base_model import DeepEvalBaseLLM
+from deepeval import evaluate
+from deepeval.test_case import LLMTestCase
+from deepeval.metrics import AnswerRelevancyMetric, FaithfulnessMetric, ContextualPrecisionMetric, ContextualRecallMetric
+
+class CustomOllamaModel(DeepEvalBaseLLM):
+    def __init__(self, model_name: str = "llama3.2"):
+        self.model_name = model_name
+        
+
+    def load_model(self):
+        return self.model_name
+
+    def generate(self, prompt: str) -> str:
+        response = ollama.generate(
+            model=self.model_name,
+            prompt=prompt,
+            options={'num_predict': 100, 'temperature':0}
+        )
+        return response['response']
+
+    async def a_generate(self, prompt: str) -> str:
+        return self.generate(prompt)
+
+    def get_model_name(self):
+        return f"Ollama {self.model_name}"
 
 
 # Function to read questions file
@@ -21,7 +47,11 @@ def post_question(question):
     try:
         response = requests.post(url, json=payload, headers=headers)
         if response.status_code == 200:
-            return response.json().get('answer', 'No Answer provided')  
+            response_data = response.json()
+            return {
+                "context": response_data.get('context', 'No context provided'),
+                "answer": response_data.get('answer', 'No answer provided')
+            }
         else:
             print(f"Error: Received status code {response.status_code}")
             return None
@@ -50,25 +80,58 @@ def query():
         return 
 
     answers = []
-    scores = {}
+    contexts = []
+
 
     # Iterate through each question and store the response
     for i, question_reference in enumerate(zip(questions, references)):
         print(f"Sending Question {i + 1}: {question_reference[0]}")
-        answer = post_question(question_reference[0])
-        if answer:
-            answers.append(f"{i + 1}. {answer}")
-            scores[i+1] = nltk.translate.bleu_score.sentence_bleu([question_reference[1].split()], answer.split())
-            
+        rag_output = post_question(question_reference[0])
+        if rag_output:
+            answers.append(f"{i + 1}. {rag_output['answer']}")
+            contexts.append(f"{i + 1}. {rag_output['context']}")
         else:
             answers.append(f"{i + 1}. No Answer Received")
 
     # Write the answers to a text file
     with open(output_file, 'w') as file:
-        for answer, scores in zip(answers,scores):
+        for answer, context in zip(answers,contexts):
             file.write(answer + '\n')
-            file.write(str(scores) + '\n')
+            file.write(context + '\n')
 
     print(f"Questions and responses saved to {output_file}")
+
+    # Evaluate via LLM-as-a-judge approach
+    llama3 = CustomOllamaModel()
+    print(f"questions {questions}")
+    print(f"answers {answers}")
+    print(f"references {references}")
+    print(f"questions2 {questions[0]}")
+    print(f"answers2 {answers[0]}")
+    print(f"references2 {references[0]}")
+    for index, _ in enumerate(questions):
+        test_case = LLMTestCase(input=questions[index], actual_output=answers[index], expected_output=references[index], retrieval_context=[contexts[index]])
+        answer_relevancy_metric = AnswerRelevancyMetric(model=llama3, threshold=0.7)
+
+        contextual_recall_metric = ContextualRecallMetric(
+            threshold=0.7,
+            model=llama3,
+            include_reason=True
+        )
+
+        contextual_precision_metric = ContextualPrecisionMetric(
+            threshold=0.7,
+            model=llama3,
+            include_reason=True
+        )
+
+        faithfulness_metric = FaithfulnessMetric(
+            threshold=0.7,
+            model=llama3,
+            include_reason=True
+        )
+
+
+        evaluate(test_cases=[test_case], metrics=[answer_relevancy_metric, contextual_recall_metric, contextual_precision_metric, faithfulness_metric])
 
 query()
