@@ -4,50 +4,10 @@ from deepeval import evaluate
 from deepeval.test_case import LLMTestCase
 from deepeval.metrics import AnswerRelevancyMetric, FaithfulnessMetric, ContextualPrecisionMetric, ContextualRecallMetric
 from deepeval.metrics.faithfulness import FaithfulnessTemplate
-
-# Define custom template
-class CustomTemplate(FaithfulnessTemplate):
-    @staticmethod
-    def generate_claims(actual_output: str):
-        return f"""Erstellen Sie auf der Grundlage des gegebenen Textes eine umfassende Liste von Fakten, die sich aus den gegebenen Text ableiten lässt.
-
-Beispiel:
-Beispieltext:
-„CNN behauptet, dass die Sonne dreimal kleiner als die Erde ist.“
-
-Beispiel JSON:
-{{
- "claims": []
-}}
-===== ENDE DES BEISPIELS ======
-
-Text:
-{actual_output}
-
-JSON:
-"""
-    
-# Define custom template
-class CustomTemplate(AnswerRelevancyTemplate):
-    @staticmethod
-    def generate_statements(actual_output: str):
-        return f"""Gliedern Sie den Text auf und erstellen Sie eine Liste der dargestellten Aussagen.
-
-            Beispiel:
-            Unser neues Laptop-Modell verfügt über ein hochauflösendes Retina-Display für eine kristallklare Darstellung.
-
-            {{
-            "statements": [
-                "Das neue Laptop-Modell hat ein hochauflösendes Retina-Display."
-            ]
-            }}
-            ===== ENDE DES BEISPIELS ======
-
-            Text:
-            {actual_output}
-
-            JSON:
-        """
+from templates.answer_relevancy_template import AnswerRelevancyTemplate
+from templates.contextual_precision_template import ContextualPrecisionTemplate
+from templates.contextual_recall_template import ContextualRecallTemplate
+from templates.faithfulness_template import FaithfulnessTemplate
 
 class OllamaLlama3(DeepEvalBaseLLM):
     def __init__(self, model_name: str = "llama3.2"):
@@ -61,7 +21,8 @@ class OllamaLlama3(DeepEvalBaseLLM):
         response = ollama.generate(
             model=self.model_name,
             prompt=prompt,
-            options={'num_predict': 100, 'temperature':0}
+            options={'num_predict': 200, 'temperature':0}, # num_predict to set maximum number of tokens to predict
+            format='json'
         )
         print("Response generated", response['response'])
         return response['response']
@@ -79,25 +40,45 @@ llama3 = OllamaLlama3()
 
 
 test_case = LLMTestCase(input="Was ist die Hauptstadt von Rumänien?", actual_output="Paris ist die Hauptstadt von Rumänien.", expected_output="Bukarest ist die Hauptstadt von Rumänien.", retrieval_context=["Bukarest, die zweitgrößte Stadt Rumäniens und bekannt als ihre Hauptstadt, hat 50000 Einwohner."])
-answer_relevancy_metric = AnswerRelevancyMetric(model=llama3, threshold=0.7)
+
+answer_relevancy_metric = AnswerRelevancyMetric(model=llama3, threshold=0.7, evaluation_template=AnswerRelevancyTemplate, strict_mode=True)
+answer_relevancy_metric.measure(test_case)
+print("Score: ", answer_relevancy_metric.score)
+print("Reason: ", answer_relevancy_metric.reason)
 
 contextual_recall_metric = ContextualRecallMetric(
     threshold=0.7,
     model=llama3,
-    include_reason=True
+    include_reason=True,
+    evaluation_template=ContextualRecallTemplate,
+    strict_mode=True
 )
+contextual_recall_metric.measure(test_case)
+print("Score: ", contextual_recall_metric.score)
+print("Reason: ", contextual_recall_metric.reason)
 
 contextual_precision_metric = ContextualPrecisionMetric(
     threshold=0.7,
     model=llama3,
-    include_reason=True
+    include_reason=True,
+    evaluation_template=ContextualPrecisionTemplate,
+    strict_mode=True
 )
+contextual_precision_metric.measure(test_case)
+print("Score: ", contextual_precision_metric.score)
+print("Reason: ", contextual_precision_metric.reason)
 
 faithfulness_metric = FaithfulnessMetric(
     threshold=0.7,
     model=llama3,
-    include_reason=True
+    include_reason=True,
+    evaluation_template=FaithfulnessTemplate,
+    strict_mode=True
 )
 
+faithfulness_metric.measure(test_case)
+print("Score: ", faithfulness_metric.score)
+print("Reason: ", faithfulness_metric.reason)
 
-evaluate(test_cases=[test_case], metrics=[answer_relevancy_metric, contextual_recall_metric, contextual_precision_metric, faithfulness_metric])
+# In case, I want to evaluate all 10 Q&A's at once, the line below is preferable
+# evaluate(test_cases=[test_case], metrics=[answer_relevancy_metric, contextual_recall_metric, contextual_precision_metric, faithfulness_metric])
