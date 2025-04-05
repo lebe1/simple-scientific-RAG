@@ -110,12 +110,6 @@ def query():
 
     # Evaluate via LLM-as-a-judge approach
     llama3 = CustomOllamaModel()
-    print(f"questions {questions}")
-    print(f"answers {answers}")
-    print(f"references {references}")
-    print(f"questions2 {questions[0]}")
-    print(f"answers2 {answers[0]}")
-    print(f"references2 {references[0]}")
 
     answer_relevancy_metric = AnswerRelevancyMetric(model=llama3, threshold=0.7, evaluation_template=AnswerRelevancyTemplate, strict_mode=True)
 
