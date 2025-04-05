@@ -1,10 +1,17 @@
 import requests
 from datetime import datetime, timedelta, timezone
 import ollama
+import json
 from deepeval.models.base_model import DeepEvalBaseLLM
 from deepeval import evaluate
 from deepeval.test_case import LLMTestCase
-from deepeval.metrics import AnswerRelevancyMetric, FaithfulnessMetric, ContextualPrecisionMetric, ContextualRecallMetric
+from deepeval.metrics import AnswerRelevancyMetric, FaithfulnessMetric, ContextualPrecisionMetric, ContextualRecallMetric, ContextualRelevancyMetric
+from templates.answer_relevancy_template import AnswerRelevancyTemplate
+from templates.contextual_precision_template import ContextualPrecisionTemplate
+from templates.contextual_recall_template import ContextualRecallTemplate
+from templates.contextual_relevancy_template import ContextualRelevancyTemplate
+from templates.faithfulness_template import FaithfulnessTemplate
+
 
 class CustomOllamaModel(DeepEvalBaseLLM):
     def __init__(self, model_name: str = "llama3.2"):
@@ -61,8 +68,8 @@ def post_question(question):
     
 # Main function to read questions, send requests, and store answers
 def query():
-    questions_file = '../data/sample_questions2.txt' 
-    answers_file = '../data/sample_answers2.txt'
+    questions_file = '../data/sample_questions.txt' 
+    answers_file = '../data/sample_answers.txt'
     local_time = datetime.now(timezone.utc) + timedelta(hours=2)
 
     output_file = f"../data/generated_answers{local_time.strftime('%Y-%m-%d %H:%M:%S')}.txt" 
@@ -83,7 +90,7 @@ def query():
     contexts = []
 
 
-    # Iterate through each question and store the response
+    # Iterate through each question and store each response and its context
     for i, question_reference in enumerate(zip(questions, references)):
         print(f"Sending Question {i + 1}: {question_reference[0]}")
         rag_output = post_question(question_reference[0])
@@ -109,29 +116,87 @@ def query():
     print(f"questions2 {questions[0]}")
     print(f"answers2 {answers[0]}")
     print(f"references2 {references[0]}")
+
+    answer_relevancy_metric = AnswerRelevancyMetric(model=llama3, threshold=0.7, evaluation_template=AnswerRelevancyTemplate, strict_mode=True)
+
+    contextual_recall_metric = ContextualRecallMetric(
+        threshold=0.7,
+        model=llama3,
+        include_reason=True,
+        evaluation_template=ContextualRecallTemplate,
+        strict_mode=True
+    )
+
+    contextual_precision_metric = ContextualPrecisionMetric(
+        threshold=0.7,
+        model=llama3,
+        include_reason=True,
+        evaluation_template=ContextualPrecisionTemplate,
+        strict_mode=True
+    )
+
+    faithfulness_metric = FaithfulnessMetric(
+        threshold=0.7,
+        model=llama3,
+        include_reason=True,
+        evaluation_template=FaithfulnessTemplate,
+        strict_mode=True
+    )
+
+    contextual_relevancy_metric = ContextualRelevancyMetric(
+        threshold=0.7,
+        model=llama3,
+        include_reason=True,
+        evaluation_template=ContextualRelevancyTemplate,
+        strict_mode=True
+    )
+
+
+    results = []
+
     for index, _ in enumerate(questions):
-        test_case = LLMTestCase(input=questions[index], actual_output=answers[index], expected_output=references[index], retrieval_context=[contexts[index]])
-        answer_relevancy_metric = AnswerRelevancyMetric(model=llama3, threshold=0.7)
-
-        contextual_recall_metric = ContextualRecallMetric(
-            threshold=0.7,
-            model=llama3,
-            include_reason=True
+        test_case = LLMTestCase(
+            input=questions[index],
+            actual_output=answers[index],
+            expected_output=references[index],
+            retrieval_context=[contexts[index]]
         )
 
-        contextual_precision_metric = ContextualPrecisionMetric(
-            threshold=0.7,
-            model=llama3,
-            include_reason=True
-        )
+        metrics_result = {
+            "question": questions[index],
+            "answer": answers[index],
+            "reference": references[index],
+            "context": contexts[index],
+            "metrics": {}
+        }
 
-        faithfulness_metric = FaithfulnessMetric(
-            threshold=0.7,
-            model=llama3,
-            include_reason=True
-        )
+        # Measure and store all metrics
+        for metric_name, metric in {
+            "answer_relevancy": answer_relevancy_metric,
+            "contextual_recall": contextual_recall_metric,
+            "contextual_precision": contextual_precision_metric,
+            "faithfulness": faithfulness_metric,
+            "contextual_relevancy": contextual_relevancy_metric
+        }.items():
+            try:
+                metric.measure(test_case)
+                score = metric.score
+                reason = metric.reason
+            except Exception as e:
+                score = ""
+                reason = ""
+                print(f"[ERROR] {metric_name} failed for index {index}: {e}")
 
+            metrics_result["metrics"][metric_name] = {
+                "score": score,
+                "reason": reason
+            }
 
-        evaluate(test_cases=[test_case], metrics=[answer_relevancy_metric, contextual_recall_metric, contextual_precision_metric, faithfulness_metric])
+        results.append(metrics_result)
+
+    # Save results to JSON file
+    with open(f"../data/evaluation_results{local_time.strftime('%Y-%m-%d %H:%M:%S')}.json", "w") as f:
+        json.dump(results, f, indent=4)
+
 
 query()

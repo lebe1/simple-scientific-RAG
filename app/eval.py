@@ -2,13 +2,12 @@ import ollama
 from deepeval.models.base_model import DeepEvalBaseLLM
 from deepeval import evaluate
 from deepeval.test_case import LLMTestCase
-from deepeval.metrics import AnswerRelevancyMetric, FaithfulnessMetric, ContextualPrecisionMetric, ContextualRecallMetric
+from deepeval.metrics import AnswerRelevancyMetric, FaithfulnessMetric, ContextualPrecisionMetric, ContextualRecallMetric, ContextualRelevancyMetric
 from templates.answer_relevancy_template import AnswerRelevancyTemplate
 from templates.contextual_precision_template import ContextualPrecisionTemplate
 from templates.contextual_recall_template import ContextualRecallTemplate
 from templates.contextual_relevancy_template import ContextualRelevancyTemplate
 from templates.faithfulness_template import FaithfulnessTemplate
-from deepeval.metrics import ContextualRelevancyMetric
 
 class OllamaLlama3(DeepEvalBaseLLM):
     def __init__(self, model_name: str = "llama3.2"):
