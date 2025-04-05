@@ -51,7 +51,73 @@ Abstandes von Nachbargrenzen an dieser Front frei angeordnet werden. Ein Erker l
 wenn durch ihn die dahinter liegenden Räume in ihrer gesamten Breite erweitert werden. An
 Gebäuden, deren Gebäudehöhe nach den Bestimmungen des § 75 Abs. 4 und 5 zu bemessen ist,
 dürfen solche Vorbauten, mit Ausnahme von Balkonen, an den Straßenfronten nur eine Ausladung
-von höchstens 1 m aufweisen. Bei zum Zeitpunkt des Inkrafttretens der Bauordnungsnovelle 2014 bereits bestehenden Gebäuden
+von höchstens 1 m aufweisen. Text
+ARTIKEL I
+1. (1)
+ An die Stelle der Landesgesetze vom 17. Jänner 1883, n.ö. L.G. u. V.Bl. Nr. 35, vom
+26. Dezember 1890, n.ö. L.G. u. V.Bl. Nr. 48, vom 17. Juni 1920 n.ö. L.G. u. V.Bl. Nr. 547, vom
+4. November 1920 n.ö. L.G. u. V.Bl. Nr. 808, und vom 9. Dezember 1927, L.G.Bl. für Wien Nr. 1
+ex 1928, die, soweit dieses Gesetz nichts anderes bestimmt, zugleich ihre Wirksamkeit verlieren,
+hat die nachfolgende Bauordnung zu treten.
+(2)
+2. Dieses Gesetz hat insoweit keine Geltung, als eine Angelegenheit in die Zuständigkeit des
+Bundes fällt.
+ Art. 2
+Text
+ARTIKEL II
+1. (1)
+ Die vor Wirksamkeit dieses Gesetzes beschlossenen Generalregulierungspläne bilden in ihrer
+Gesamtheit den ersten Flächenwidmungsplan (§ 4 dieser Bauordnung), die vor Wirksamkeit dieses
+Gesetzes beschlossenen Generalbaulinienpläne den ersten Bebauungsplan (§ 5 dieser Bauordnung).
+ Für ihre Kundmachung genügt, dass die Beschlüsse des Gemeinderates im Amtsblatt der Stadt Wien
+veröffentlicht worden sind, die dazugehörigen Pläne beim Magistrat der Stadt Wien zur
+Einsichtnahme aufliegen und jedermann verlangen kann, Ausfertigungen dieser Beschlüsse und der
+dazugehörigen Pläne zu erhalten.
+(2)
+ Für die Einteilung der Stadtgebiete in die Bauklassen (§ 75 dieser Bauordnung) und für die
+Widmung der zum Bauland gehörenden Gebiete (§ 4 dieser Bauordnung) gelten aber, soweit für
+diese Stadtgebiete ein Generalbaulinienplan besteht und entweder das Gesetz oder Beschlüsse des
+Gemeinderates Beschränkungen der Geschoßzahl der Wohngebäude festgesetzt haben,
+nachfolgende Übergangsbestimmungen:
+• a)
+ Zur Bauklasse IV gehören, soweit nicht nach dieser Bauordnung Bauklasse V zu gelten hat, jene
+Stadtgebiete, wo bisher die Wohnhäuser nicht mehr als fünf Geschosse (vier Stockwerke) enthalten
+durften;
+b)
+zur Bauklasse III gehören jene Stadtgebiete, wo die Wohnhäuser bisher nicht mehr als drei
+Stockwerke enthalten durften;
+c)
+zur Bauklasse II gehören jene Stadtgebiete, für die die zwei Stock hohe Bebauung festgesetzt war,
+und
+d)zur Bauklasse I gehören jene Stadtgebiete, für die eine ein Stock hohe oder bloß ebenerdige
+Bebauung vorgeschrieben war.
+ e)
+ • Als Wohngebiete gelten jene Stadtgebiete, in denen für die Wohnhäuser vorgeschrieben war,
+daß sie einzelstehend oder zu zweien gekuppelt zu erbauen sind, sowie alle bisher
+festgesetzten Siedlungsgebiete und jene Gebietsteile, für die durch besondere Beschlüsse
+des Gemeinderates die Bildung von Wohngebäudegruppen mit mehr als zwei Gebäuden
+zugelassen wurde.
+ • f)
+ Alle übrigen zum Bauland gehörigen Stadtgebiete gelten als gemischte Baugebiete, insbesondere
+auch jene Stadtgebiete, die der Gemeinderat vorzugsweise für die Anlage von Industriebauten
+bestimmt hat; diese Stadtgebiete sind, wenn sie in den Bezirken I bis X und XX liegen, als zur
+Bauklasse IV, wenn sie in den übrigen Bezirken liegen, als zur Bauklasse III gehörig anzusehen,
+soweit nicht diese Gebietsteile mit Rücksicht auf die durch besondere Gemeinderatsbeschlüsse
+festgesetzte Beschränkung der Geschoßzahl in eine andere Bauklasse einzureihen sind.
+(3)
+ Für Grundflächen, für die vor der Bauordnungsnovelle 1976 die Bebauung mit Kleinhäusern,
+Einfamilienhäusern und Siedlungshäusern nach den Bestimmungen der §§ 117 und 118 festgesetzt
+war, gilt die Bebauung mit Kleinhäusern im Sinne dieses Gesetzes als festgesetzt.
+ Art. 3
+Text
+ARTIKEL III
+1. (1)
+ Die Bestimmungen der §§ 11, 20, 58 und 74 der Bauordnung gelten auch für bereits vor
+Wirksamkeit dieses Gesetzes ergangene Bescheide, Abteilungs- und Baubewilligungen aber, die
+nach den bisherigen gesetzlichen Vorschriften noch nicht erloschen sind, jedoch nach den
+Bestimmungen dieser Bauordnung schon erloschen wären oder innerhalb eines Jahres nach
+Inkrafttreten dieses Gesetzes erlöschen würden, behalten ihre Gültigkeit für den Rest ihrer
+bisherigen Dauer, längstens jedoch für ein Jahr vom Tage des Inkrafttretens des Gesetzes. Bei zum Zeitpunkt des Inkrafttretens der Bauordnungsnovelle 2014 bereits bestehenden Gebäuden
 sind, soweit städtebauliche Rücksichten nicht entgegenstehen, Bauführungen zur Schaffung oder
 Erweiterung eines Dachraumes für die Errichtung von Wohnungen oder Betriebseinheiten für
 Bürozwecke durch Erhöhung der Dachneigung bis zum Erreichen des Gebäudeumrisses gemäß § 81
@@ -165,73 +231,7 @@ beziehungsweise des Bauloses nicht anzurechnen.
 bestimmt (§ 5 Abs. 4 lit. e), nur ebenerdige Badehütten mit einer bebauten Fläche von nicht mehr
 als 35 m2 errichtet werden.
 (13)
- Text
-ARTIKEL I
-1. (1)
- An die Stelle der Landesgesetze vom 17. Jänner 1883, n.ö. L.G. u. V.Bl. Nr. 35, vom
-26. Dezember 1890, n.ö. L.G. u. V.Bl. Nr. 48, vom 17. Juni 1920 n.ö. L.G. u. V.Bl. Nr. 547, vom
-4. November 1920 n.ö. L.G. u. V.Bl. Nr. 808, und vom 9. Dezember 1927, L.G.Bl. für Wien Nr. 1
-ex 1928, die, soweit dieses Gesetz nichts anderes bestimmt, zugleich ihre Wirksamkeit verlieren,
-hat die nachfolgende Bauordnung zu treten.
-(2)
-2. Dieses Gesetz hat insoweit keine Geltung, als eine Angelegenheit in die Zuständigkeit des
-Bundes fällt.
- Art. 2
-Text
-ARTIKEL II
-1. (1)
- Die vor Wirksamkeit dieses Gesetzes beschlossenen Generalregulierungspläne bilden in ihrer
-Gesamtheit den ersten Flächenwidmungsplan (§ 4 dieser Bauordnung), die vor Wirksamkeit dieses
-Gesetzes beschlossenen Generalbaulinienpläne den ersten Bebauungsplan (§ 5 dieser Bauordnung).
- Für ihre Kundmachung genügt, dass die Beschlüsse des Gemeinderates im Amtsblatt der Stadt Wien
-veröffentlicht worden sind, die dazugehörigen Pläne beim Magistrat der Stadt Wien zur
-Einsichtnahme aufliegen und jedermann verlangen kann, Ausfertigungen dieser Beschlüsse und der
-dazugehörigen Pläne zu erhalten.
-(2)
- Für die Einteilung der Stadtgebiete in die Bauklassen (§ 75 dieser Bauordnung) und für die
-Widmung der zum Bauland gehörenden Gebiete (§ 4 dieser Bauordnung) gelten aber, soweit für
-diese Stadtgebiete ein Generalbaulinienplan besteht und entweder das Gesetz oder Beschlüsse des
-Gemeinderates Beschränkungen der Geschoßzahl der Wohngebäude festgesetzt haben,
-nachfolgende Übergangsbestimmungen:
-• a)
- Zur Bauklasse IV gehören, soweit nicht nach dieser Bauordnung Bauklasse V zu gelten hat, jene
-Stadtgebiete, wo bisher die Wohnhäuser nicht mehr als fünf Geschosse (vier Stockwerke) enthalten
-durften;
-b)
-zur Bauklasse III gehören jene Stadtgebiete, wo die Wohnhäuser bisher nicht mehr als drei
-Stockwerke enthalten durften;
-c)
-zur Bauklasse II gehören jene Stadtgebiete, für die die zwei Stock hohe Bebauung festgesetzt war,
-und
-d)zur Bauklasse I gehören jene Stadtgebiete, für die eine ein Stock hohe oder bloß ebenerdige
-Bebauung vorgeschrieben war.
- e)
- • Als Wohngebiete gelten jene Stadtgebiete, in denen für die Wohnhäuser vorgeschrieben war,
-daß sie einzelstehend oder zu zweien gekuppelt zu erbauen sind, sowie alle bisher
-festgesetzten Siedlungsgebiete und jene Gebietsteile, für die durch besondere Beschlüsse
-des Gemeinderates die Bildung von Wohngebäudegruppen mit mehr als zwei Gebäuden
-zugelassen wurde.
- • f)
- Alle übrigen zum Bauland gehörigen Stadtgebiete gelten als gemischte Baugebiete, insbesondere
-auch jene Stadtgebiete, die der Gemeinderat vorzugsweise für die Anlage von Industriebauten
-bestimmt hat; diese Stadtgebiete sind, wenn sie in den Bezirken I bis X und XX liegen, als zur
-Bauklasse IV, wenn sie in den übrigen Bezirken liegen, als zur Bauklasse III gehörig anzusehen,
-soweit nicht diese Gebietsteile mit Rücksicht auf die durch besondere Gemeinderatsbeschlüsse
-festgesetzte Beschränkung der Geschoßzahl in eine andere Bauklasse einzureihen sind.
-(3)
- Für Grundflächen, für die vor der Bauordnungsnovelle 1976 die Bebauung mit Kleinhäusern,
-Einfamilienhäusern und Siedlungshäusern nach den Bestimmungen der §§ 117 und 118 festgesetzt
-war, gilt die Bebauung mit Kleinhäusern im Sinne dieses Gesetzes als festgesetzt.
- Art. 3
-Text
-ARTIKEL III
-1. (1)
- Die Bestimmungen der §§ 11, 20, 58 und 74 der Bauordnung gelten auch für bereits vor
-Wirksamkeit dieses Gesetzes ergangene Bescheide, Abteilungs- und Baubewilligungen aber, die
-nach den bisherigen gesetzlichen Vorschriften noch nicht erloschen sind, jedoch nach den
-Bestimmungen dieser Bauordnung schon erloschen wären oder innerhalb eines Jahres nach
-Inkrafttreten dieses Gesetzes erlöschen würden, behalten ihre Gültigkeit für den Rest ihrer
-bisherigen Dauer, längstens jedoch für ein Jahr vom Tage des Inkrafttretens des Gesetzes. Vor die Gebäudefront ragende Gebäudeteile der in § 84 Abs. 1 und 2 genannten Art und in dem dort
+ Vor die Gebäudefront ragende Gebäudeteile der in § 84 Abs. 1 und 2 genannten Art und in dem dort
 bezeichneten Ausmaß bleiben bei der Ermittlung der bebauten Fläche außer Betracht, gleichgültig,
 ob sie über Baufluchtlinien ragen oder nicht. Überschreiten solche Gebäudeteile das genannte
 Ausmaß, sind sie der bebauten Fläche voll zuzurechnen. Gleiches gilt für Erker, Balkone undLoggien, unter denen nicht überall eine freie Durchgangshöhe von mindestens 2,10 m gewährleistet
