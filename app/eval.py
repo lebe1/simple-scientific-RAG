@@ -4,10 +4,8 @@ from deepeval import evaluate
 from deepeval.test_case import LLMTestCase
 from deepeval.metrics import AnswerRelevancyMetric, FaithfulnessMetric, ContextualPrecisionMetric, ContextualRecallMetric
 from deepeval.metrics.faithfulness import FaithfulnessTemplate
-from templates.answer_relevancy_template import AnswerRelevancyTemplate
-from templates.contextual_precision_template import ContextualPrecisionTemplate
-from templates.contextual_recall_template import ContextualRecallTemplate
-from templates.faithfulness_template import FaithfulnessTemplate
+from templates.answer_relevancy_template import *
+from deepeval.metrics import ContextualRelevancyMetric
 
 class OllamaLlama3(DeepEvalBaseLLM):
     def __init__(self, model_name: str = "llama3.2"):
@@ -80,5 +78,16 @@ faithfulness_metric.measure(test_case)
 print("Score: ", faithfulness_metric.score)
 print("Reason: ", faithfulness_metric.reason)
 
+contextual_relevancy_metric = ContextualRelevancyMetric(
+    threshold=0.7,
+    model=llama3,
+    include_reason=True,
+    evaluation_template=,
+    strict_mode=True
+)
+
+contextual_relevancy_metric.measure(test_case)
+print("Score: ", contextual_relevancy_metric.score)
+print("Reason: ", contextual_relevancy_metric.reason)
 # In case, I want to evaluate all 10 Q&A's at once, the line below is preferable
 # evaluate(test_cases=[test_case], metrics=[answer_relevancy_metric, contextual_recall_metric, contextual_precision_metric, faithfulness_metric])
