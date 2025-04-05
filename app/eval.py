@@ -3,8 +3,11 @@ from deepeval.models.base_model import DeepEvalBaseLLM
 from deepeval import evaluate
 from deepeval.test_case import LLMTestCase
 from deepeval.metrics import AnswerRelevancyMetric, FaithfulnessMetric, ContextualPrecisionMetric, ContextualRecallMetric
-from deepeval.metrics.faithfulness import FaithfulnessTemplate
-from templates.answer_relevancy_template import *
+from templates.answer_relevancy_template import AnswerRelevancyTemplate
+from templates.contextual_precision_template import ContextualPrecisionTemplate
+from templates.contextual_recall_template import ContextualRecallTemplate
+from templates.contextual_relevancy_template import ContextualRelevancyTemplate
+from templates.faithfulness_template import FaithfulnessTemplate
 from deepeval.metrics import ContextualRelevancyMetric
 
 class OllamaLlama3(DeepEvalBaseLLM):
@@ -82,7 +85,7 @@ contextual_relevancy_metric = ContextualRelevancyMetric(
     threshold=0.7,
     model=llama3,
     include_reason=True,
-    evaluation_template=,
+    evaluation_template=ContextualRelevancyTemplate,
     strict_mode=True
 )
 
