@@ -9,18 +9,18 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = 'max_split_size_mb:256'
 
 
 class Embedding:
-    def __init__(self, model_name, spacy_model, chunk_size_in_kb):
+    def __init__(self, model, spacy_model, chunk_size_in_kb):
         # Set device
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         print(f"Using device: {self.device}")
 
         # Initialize model and tokenizer
         self.model = AutoModel.from_pretrained(
-            model_name,
+            model,
             trust_remote_code=True,
             torch_dtype=torch.bfloat16
         ).to(self.device)
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(model)
 
         # Set model to evaluation mode
         self.model.eval()
@@ -28,9 +28,9 @@ class Embedding:
         # Store configuration
         self.spacy_model = spacy_model
         self.chunk_size_in_kb = chunk_size_in_kb
-        self.model_name_escaped = model_name.replace('/', '-')
-        self.file_name = f'../data/{self.model_name_escaped}__with{self.chunk_size_in_kb}kbchunks__spacymodel_{self.spacy_model}.npy'
-        self.index_name = f"{self.model_name_escaped}__chunks{chunk_size_in_kb}kb__{spacy_model}"
+        self.model_escaped = model.replace('/', '-')
+        self.file_name = f'../data/{self.model_escaped}__with{self.chunk_size_in_kb}kbchunks__spacymodel_{self.spacy_model}.npy'
+        self.index_name = f"{self.model_escaped}__chunks{chunk_size_in_kb}kb__{spacy_model}"
 
     def mean_pooling(self, model_output, attention_mask):
         """Perform mean pooling on token embeddings."""

@@ -11,13 +11,13 @@ model = Model()
 # Define requests body model
 class PromptRequest(BaseModel):
     question: str
-    model_name: str
+    model: str
     spacy_model: str
     chunk_size_in_kb: int
 
 class SearchQuery(BaseModel):
     query: str
-    model_name: str
+    model: str
     spacy_model: str
     chunk_size_in_kb: int
 
@@ -30,7 +30,7 @@ async def handle_prompt(request: PromptRequest):
 # POST route for search
 @app.post("/api/search")
 async def handle_search(search: SearchQuery):
-    embedding = Embedding(spacy_model=search.spacy_model, chunk_size_in_kb=search.chunk_size_in_kb, model_name=search.model_name)
+    embedding = Embedding(spacy_model=search.spacy_model, chunk_size_in_kb=search.chunk_size_in_kb, model=search.model)
     es = Search(embedding=embedding)
     results = es.search(search.query)
     return {"results": results}
@@ -38,7 +38,7 @@ async def handle_search(search: SearchQuery):
 # POST route for RAG prompt
 @app.post("/api/rag")
 async def handle_rag(request: PromptRequest):
-    embedding = Embedding(spacy_model=request.spacy_model, chunk_size_in_kb=request.chunk_size_in_kb, model_name=request.model_name)
+    embedding = Embedding(spacy_model=request.spacy_model, chunk_size_in_kb=request.chunk_size_in_kb, model=request.model)
     es = Search(embedding=embedding)
-    answer = model.rag(question=request.question, es=es)
-    return {"answer": f"{answer}"}
+    rag_output = model.rag(question=request.question, es=es)
+    return {"context": f"{rag_output[1]}", "answer": f"{rag_output[0]}"}

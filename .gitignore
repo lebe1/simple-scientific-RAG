@@ -166,3 +166,7 @@ data/best_chunk.txt
 
 # Temporary outputs used for performance comparison
 output/
+
+# Output files created by deepeval
+app/.*
+app/*.json

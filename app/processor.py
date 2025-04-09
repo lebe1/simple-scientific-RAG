@@ -2,6 +2,7 @@ import spacy
 import os
 from pathlib import Path
 import pickle
+import re
 
 FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 
@@ -35,6 +36,37 @@ class Processor:
         self.save_chunks_to_output_dir(chunks)
 
         return chunks
+    
+    def chunk_by_article(self, text, split_into_subarticles=False):
+        # Split the text into chunks starting with "ARTIKEL"
+        articles = []
+        current_article = []
+        inside_paragraph = False
+        lines = text.split('\n')
+        
+        for line in lines:
+            line = line.strip()
+            if line.startswith("ARTIKEL") or re.match(r"§ \d+(?!\.)", line): # Matches § 1, § 2 etc.
+                if current_article:  # Save the previous article if it exists
+                    articles.append('\n'.join(current_article))
+                    current_article = []
+                current_article.append(line)  
+            elif split_into_subarticles and re.match(r"\(\d+[a-z]?\)", line):  # Matches (1), (2a), (5b), etc.
+                if current_article:  
+                    articles.append('\n'.join(current_article))
+                    current_article = []
+                current_article.append(line) 
+            elif line == "Text" or re.match(r"§ \d+.", line) or not line: # Matches § 1., § 22. etc.
+                continue  
+            # Only add lines if we're inside an article
+            elif current_article:  
+                current_article.append(line)
+        
+        # Important: Add last article before returning
+        if current_article:  
+            articles.append('\n'.join(current_article))
+        
+        return articles
 
     def save(self, chunks):
         file_name = f'../data/{self.spacy_model}_{self.chunk_size_in_kb}kb_chunks.pkl'
