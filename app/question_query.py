@@ -67,7 +67,7 @@ def post_question(question):
         return None
     
 # Main function to read questions, send requests, and store answers
-def query():
+if __name__ == "__main__":
     questions_file = '../data/sample_questions.txt' 
     answers_file = '../data/sample_answers.txt'
     local_time = datetime.now(timezone.utc) + timedelta(hours=2)
@@ -79,12 +79,10 @@ def query():
     references = read_lines_from_file(answers_file)
 
     if not questions:
-        print("No questions found to process.")
-        return
+        print("No questions found to process.")       
     
     if not references:
-        print("No answers found to process.")
-        return 
+        print("No answers found to process.") 
 
     answers = []
     contexts = []
@@ -191,6 +189,3 @@ def query():
     # Save results to JSON file
     with open(f"../data/evaluation_results{local_time.strftime('%Y-%m-%d %H:%M:%S')}.json", "w") as f:
         json.dump(results, f, indent=4)
-
-
-query()
