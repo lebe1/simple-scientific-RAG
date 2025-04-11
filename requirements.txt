@@ -7,3 +7,4 @@ spacy
 sentence-transformers
 torch<2.5.0
 deepeval
+neo4j
