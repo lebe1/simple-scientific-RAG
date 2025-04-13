@@ -44,8 +44,10 @@ Make sure you have Git, Python 3.12+ and Docker installed on your machine.
 
    Run docker-compose.yml to pull the required image:
    ```bash
-   docker compose up -d
+   GPU_COUNT=1 docker compose up -d
    ```
+   If you don't have GPU available, run it with `GPU_COUNT=0`.   
+
 6. **Install Ollama model llama3.2**
 
    Pull the required model llama3.2 by running:
