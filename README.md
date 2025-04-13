@@ -71,12 +71,6 @@ Make sure you have Git, Python 3.12+ and Docker installed on your machine.
 
 ## Running the application after setup instructions
 
-If Docker containers are not running yet, start them again with:
-
-```bash
-docker compose up -d
-```
-
 **Note:** If you want to improve your runtime and you have access to a GPU, comment out the commented lines of code in the `docker-compose.yml`
 
 Run fastapi server locally:
@@ -104,7 +98,8 @@ Or by opening the built-in Swagger of FastAPI via `http://127.0.0.1:8000/docs`
 Assuming that you executed the `uvicorn` command above, execute:
 
 ```bash
-python benchmark.py --questions ../data/sample_questions.txt --references ../data/sample_answers.txt --output-dir ../data/benchmark_results
+cd app;
+python benchmark.py --questions ../data/sample_questions.txt --references ../data/sample_answers.txt --output-dir ../data/benchmark_results_test
 ```
 
 Which will execute the following combinations of multiple llm-model, chunk-size, and model embedding:
