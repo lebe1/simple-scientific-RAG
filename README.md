@@ -51,7 +51,8 @@ Make sure you have Git, Python 3.12+ and Docker installed on your machine.
    Pull the required model llama3.2 by running:
 
    ```bash
-   docker exec ollama ollama run llama3.2
+   docker exec ollama ollama run llama3-chatqa:8b
+   docker exec ollama ollama run gemma3:12b
    ```
 
 7. **Install model for chunking**
@@ -63,7 +64,7 @@ Make sure you have Git, Python 3.12+ and Docker installed on your machine.
 8. **Create the index from the legal text**
 
     ```bash
-    python app/workflow.py update-es-index
+    ./run_workflow_create_index
     ```
 
 ## Running the application after setup instructions
@@ -96,34 +97,39 @@ curl -X POST "http://127.0.0.1:8000/api/search" -H "Content-Type: application/js
 
 Or by opening the built-in Swagger of FastAPI via `http://127.0.0.1:8000/docs`
 
-### Recreating the embeddings
+## Running the automated benchmark evaluation
 
-In case the current datafile `data/legal-basis.txt` is changed or extended, you have to re-create the embeddings as follows:
+Assuming that you executed the `uvicorn` command above, execute:
 
 ```bash
-# This assumes you have the venv environment enabled and you are inside the app/ directory
-python workflow.py create-embeddings
+python benchmark.py --questions ../data/sample_questions.txt --references ../data/sample_answers.txt --output-dir ../data/benchmark_results
 ```
 
-It takes the datafile `data/legal-basis.txt` as input, chunks it into 4kb parts, and computes the embeddings using `jinaai/jina-embeddings-v2-base-de`.  
-Afterwards, the results of the current datafile are stored in the numpy array `data/embeddings.npy` to later on load it easily. We copied the `data/embeddings.npy` to `data/jina-embeddings-v2-base-de-4kb` to store the embeddings created from 4kb chunks as backup/reference. 
-
-## Running the automated question query
-
-For now, this only works when the fastapi server is called outside of docker. If the fastapi server is running on docker, you need to stop it first, to be able to execute the following command:
-
-```bash
-cd app
+Which will execute the following combinations of multiple llm-model, chunk-size, and model embedding:
+```python
+CONFIGURATIONS = {
+    "llm_models": ["llama3-chatqa:8b", "gemma3:12b"],  # Add other models you have in Ollama
+    "embedding_models": [
+        "jinaai/jina-embeddings-v2-base-de",
+        "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"  # Add other embedding models
+    ],
+    "chunk_sizes": [4, 8, 16, 32, 64, 128],  # Chunk sizes in KB
+    "spacy_models": ["de_core_news_lg"]  # You could add more if needed
+}
 ```
 
+Next, you can execute the evaluation script:
+
 ```bash
-uvicorn main:app --reload
+python evaluate_benchmarks.py --benchmark-dir ../data/benchmark_results --output-dir ../data/evaluation_results --eval-model gemma3:12b --max-retries 2
 ```
 
-Open a second terminal in the same directory and run:
+> Please note that you could use any LLM to evaluate, you just need to run it in the ollama container first. The `max-retries` was added to try multiple times in case the LLM does not provide a proper JSON structure.
+
+Finally, you can run the visualization pipeline:
 
 ```bash
-python question_query.py
+python visualize_results.py --eval-dir ../data/evaluation_results --output-dir ../data/visualizations
 ```
 
 ## Data
