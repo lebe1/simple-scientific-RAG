@@ -14,6 +14,7 @@ class PromptRequest(BaseModel):
     model: str
     spacy_model: str
     chunk_size_in_kb: int
+    llm_model: str = "llama3-chatqa:8b"  # Default LLM model
 
 class SearchQuery(BaseModel):
     query: str
@@ -24,7 +25,7 @@ class SearchQuery(BaseModel):
 # POST route for prompt
 @app.post("/api/prompt")
 async def handle_prompt(request: PromptRequest):
-    answer = model.chat(request.question)
+    answer = model.chat(request.question, model=request.llm_model)
     return {"answer": f"{answer}"}
 
 # POST route for search
@@ -40,5 +41,5 @@ async def handle_search(search: SearchQuery):
 async def handle_rag(request: PromptRequest):
     embedding = Embedding(spacy_model=request.spacy_model, chunk_size_in_kb=request.chunk_size_in_kb, model=request.model)
     es = Search(embedding=embedding)
-    rag_output = model.rag(question=request.question, es=es)
+    rag_output = model.rag(question=request.question, es=es, model=request.llm_model)
     return {"context": f"{rag_output[1]}", "answer": f"{rag_output[0]}"}
