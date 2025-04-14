@@ -59,11 +59,11 @@ class EnhancedOllamaModel(DeepEvalBaseLLM):
                 # Add explicit instructions to format as JSON
                 enhanced_prompt = (
                     f"{prompt}\n\n"
-                    "IMPORTANT: Your response MUST be valid JSON. Format your entire response as a "
-                    "single JSON object with no additional text, markdown, or explanation before or after. "
-                    "Ensure all quotes are double quotes and all keys are properly quoted."
-                    "The output should be directly loadable in Python, and not be Markdown."
-                    "Do not start the JSON object with ```json."
+                    """WICHTIG: Ihre Antwort MUSS ein gültiges JSON sein. Formatieren Sie Ihre gesamte Antwort als ein
+                    einzelnes JSON-Objekt ohne zusätzlichen Text, Markdown oder Erklärungen davor oder danach. 
+                    Achten Sie darauf, dass alle Anführungszeichen doppelte Anführungszeichen sind und alle Schlüssel korrekt in Anführungszeichen gesetzt sind.
+                    Die Ausgabe soll direkt in Python geladen werden können und nicht in Markdown sein.
+                    Beginnen Sie das JSON-Objekt nicht mit ```json."""
                 )
 
                 # Generate response
