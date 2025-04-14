@@ -7,7 +7,7 @@ import re
 FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 
 class Processor:
-    def __init__(self, spacy_model='de_core_news_lg', chunk_size_in_kb=4):
+    def __init__(self, spacy_model='de_core_news_lg', chunk_size_in_kb=4.0):
         self.spacy_model = spacy_model
         self.chunk_size_in_kb = chunk_size_in_kb
 

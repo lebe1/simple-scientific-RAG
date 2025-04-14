@@ -1,0 +1,19 @@
+{
+  "timestamp": "2025-04-13T08:48:59.788256",
+  "total_configurations": 12,
+  "total_questions": 11,
+  "result_files": [
+    "../data/benchmark_results/results_gemma3:12b_jina-embeddings-v2-base-de_4kb_de_core_news_lg_20250413_083826.json",
+    "../data/benchmark_results/results_gemma3:12b_jina-embeddings-v2-base-de_8kb_de_core_news_lg_20250413_083832.json",
+    "../data/benchmark_results/results_gemma3:12b_jina-embeddings-v2-base-de_16kb_de_core_news_lg_20250413_084046.json",
+    "../data/benchmark_results/results_gemma3:12b_jina-embeddings-v2-base-de_32kb_de_core_news_lg_20250413_084053.json",
+    "../data/benchmark_results/results_gemma3:12b_jina-embeddings-v2-base-de_64kb_de_core_news_lg_20250413_084317.json",
+    "../data/benchmark_results/results_gemma3:12b_jina-embeddings-v2-base-de_128kb_de_core_news_lg_20250413_084324.json",
+    "../data/benchmark_results/results_gemma3:12b_paraphrase-multilingual-MiniLM-L12-v2_4kb_de_core_news_lg_20250413_084502.json",
+    "../data/benchmark_results/results_gemma3:12b_paraphrase-multilingual-MiniLM-L12-v2_8kb_de_core_news_lg_20250413_084506.json",
+    "../data/benchmark_results/results_gemma3:12b_paraphrase-multilingual-MiniLM-L12-v2_16kb_de_core_news_lg_20250413_084652.json",
+    "../data/benchmark_results/results_gemma3:12b_paraphrase-multilingual-MiniLM-L12-v2_32kb_de_core_news_lg_20250413_084657.json",
+    "../data/benchmark_results/results_gemma3:12b_paraphrase-multilingual-MiniLM-L12-v2_64kb_de_core_news_lg_20250413_084854.json",
+    "../data/benchmark_results/results_gemma3:12b_paraphrase-multilingual-MiniLM-L12-v2_128kb_de_core_news_lg_20250413_084859.json"
+  ]
+}

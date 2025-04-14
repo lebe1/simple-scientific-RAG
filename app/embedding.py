@@ -28,7 +28,7 @@ class Embedding:
         # Store configuration
         self.spacy_model = spacy_model
         self.chunk_size_in_kb = chunk_size_in_kb
-        self.model_escaped = model.replace('/', '-')
+        self.model_escaped = model.replace('/', '-').lower()
         self.file_name = f'../data/{self.model_escaped}__with{self.chunk_size_in_kb}kbchunks__spacymodel_{self.spacy_model}.npy'
         self.index_name = f"{self.model_escaped}__chunks{chunk_size_in_kb}kb__{spacy_model}"
 
