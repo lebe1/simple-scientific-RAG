@@ -13,14 +13,14 @@ class PromptRequest(BaseModel):
     question: str
     model: str
     spacy_model: str
-    chunk_size_in_kb: int
+    chunk_size_in_kb: float
     llm_model: str = "llama3-chatqa:8b"  # Default LLM model
 
 class SearchQuery(BaseModel):
     query: str
     model: str
     spacy_model: str
-    chunk_size_in_kb: int
+    chunk_size_in_kb: float
 
 # POST route for prompt
 @app.post("/api/prompt")
