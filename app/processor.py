@@ -65,7 +65,9 @@ class Processor:
         # Important: Add last article before returning
         if current_article:  
             articles.append('\n'.join(current_article))
-        
+
+        self.save_chunks_to_output_dir(articles)
+
         return articles
 
     def save(self, chunks):

@@ -46,7 +46,7 @@ if __name__ == "__main__":
     # Required argument for operation
     parser.add_argument(
         'operation',
-        choices=['create-embeddings', 'update-es-index'],
+        choices=['create-embeddings', 'update-es-index', 'create-embeddings-by-article', 'create-embeddings-by-subarticle'],
         help="Operation to perform: 'create-embeddings' or 'update-es-index'"
     )
 
