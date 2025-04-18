@@ -24,6 +24,10 @@ class Search:
         # Define the path to the .env file
         env_path = Path(__file__).resolve().parent.parent / '.env'
 
+        # Load the Cross-Encoder model for scoring
+        self.cross_encoder = CrossEncoder('cross-encoder/msmarco-MiniLM-L12-en-de-v1', max_length=512)
+
+
         # Load the .env file
         load_env_file(env_path)
 
@@ -106,7 +110,7 @@ class Search:
         retrieved_chunks = [hit['_source']['text'] for hit in response['hits']['hits']]
 
         print(f"Reranking relevant chunks...")
-        best_chunk, score = self.rank_chunks_with_cross_encoder(query, retrieved_chunks)
+        best_chunk, _ = self.rank_chunks_with_cross_encoder(query, retrieved_chunks)
 
         # Save memory by clearing the embeddings
         del response
@@ -120,20 +124,19 @@ class Search:
     
     def rank_chunks_with_cross_encoder(self, query, retrieved_chunks):
         """Rank the retrieved chunks based on their relevance to the query using SBERT Cross-Encoder."""
-        # Load the Cross-Encoder model for scoring
-        cross_encoder = CrossEncoder('cross-encoder/msmarco-MiniLM-L12-en-de-v1', max_length=512)
 
         # Create (query, chunk) pairs for Cross-Encoder scoring
         query_chunk_pairs = [[query, chunk] for chunk in retrieved_chunks]
 
         # Score the pairs using the Cross-Encoder
-        scores = cross_encoder.predict(query_chunk_pairs)
+        scores = self.cross_encoder.predict(query_chunk_pairs)
 
         # Combine chunks with their scores and sort by relevance
         chunk_score_pairs = list(zip(retrieved_chunks, scores))
         chunk_score_pairs.sort(key=lambda x: x[1], reverse=True)  # Sort by score in descending order
 
-        chunks_subset = chunk_score_pairs[:10]
+        # Important parameter here: Set the top k chunks here considered for retrieval
+        chunks_subset = chunk_score_pairs[:3]
         # Merge best chunks
         best_chunks = " ".join(text for text, _ in chunks_subset)
         # Calculate the average score
