@@ -106,6 +106,7 @@ Assuming that you executed the `uvicorn` command above, execute:
 ```bash
 cd app;
 python benchmark.py --questions ../data/sample_questions.txt --references ../data/sample_answers.txt --output-dir ../data/benchmark_results_final
+./cleanup_empty_json.sh -d data/benchmark_results_final/
 ```
 
 Which will execute the following combinations of multiple llm-model, chunk-size, and model embedding:
@@ -120,6 +121,8 @@ CONFIGURATIONS = {
     "spacy_models": ["de_core_news_lg"]  # You could add more if needed
 }
 ```
+
+The `cleanup_empty_json.sh` script cleans empty JSON files that get created during the benchmark workflow.
 
 ## Running the quantitative evaluation
 
