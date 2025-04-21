@@ -8,12 +8,12 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Configuration options for benchmarking
 CONFIGURATIONS = {
-    "llm_models": ["gemma3:12b"],  # Add other models you have in Ollama
+    "llm_models": ["llama3-chatqa:8b", "gemma3:27b"],  # Add other models you have in Ollama
     "embedding_models": [
         "jinaai/jina-embeddings-v2-base-de",
         "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"  # Add other embedding models
     ],
-    "chunk_sizes": [0.125],  # Chunk sizes in KB
+    "chunk_sizes": [0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32, 64, 128],  # Chunk sizes in KB
     "spacy_models": ["de_core_news_lg"]  # You could add more if needed
 }
 
