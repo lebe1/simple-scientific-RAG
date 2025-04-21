@@ -148,7 +148,13 @@ To qualitatively evaluate the benchmark results, collect the results into a sing
 python prepare_qualitative_eval.py --input ../data/benchmark_results_final/ --output ../data/evaluation_results_final/ --mode combine
 ```
 
-Next, you need to give scores for each answer and combination of LLM, chunk size, embedding model, and spacy model.
+Next, you need to give scores for each answer and combination of LLM, chunk size, embedding model, and spacy model. Either you manually fill it out, or you let other LLMs do it like ChatGPT or Claude. Finally, you execute the following visualization pipeline:
+
+```bash
+python visualize_qualitative_eval.py
+```
+
+Which will store the evaluation results under `data/evaluation_results_final`.
 
 ## Data
 The data of the legal basis can be found under https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=LrW&Gesetzesnummer=20000006
