@@ -71,6 +71,7 @@ Make sure you have Git, Python 3.12+ and Docker installed on your machine.
 8. **Create the index from the legal text**
 
     ```bash
+    ./run_workflow_create_index_small
     ./run_workflow_create_index
     ```
 
@@ -98,29 +99,31 @@ curl -X POST "http://127.0.0.1:8000/api/search" -H "Content-Type: application/js
 
 Or by opening the built-in Swagger of FastAPI via `http://127.0.0.1:8000/docs`
 
-## Running the automated benchmark evaluation
+## Running the automated benchmark execution
 
 Assuming that you executed the `uvicorn` command above, execute:
 
 ```bash
 cd app;
-python benchmark.py --questions ../data/sample_questions.txt --references ../data/sample_answers.txt --output-dir ../data/benchmark_results_test
+python benchmark.py --questions ../data/sample_questions.txt --references ../data/sample_answers.txt --output-dir ../data/benchmark_results_final
 ```
 
 Which will execute the following combinations of multiple llm-model, chunk-size, and model embedding:
 ```python
 CONFIGURATIONS = {
-    "llm_models": ["llama3-chatqa:8b", "gemma3:12b"],  # Add other models you have in Ollama
+    "llm_models": ["llama3-chatqa:8b", "gemma3:27b"],  # Add other models you have in Ollama
     "embedding_models": [
         "jinaai/jina-embeddings-v2-base-de",
         "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"  # Add other embedding models
     ],
-    "chunk_sizes": [4, 8, 16, 32, 64, 128],  # Chunk sizes in KB
+    "chunk_sizes": [0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32, 64, 128],  # Chunk sizes in KB
     "spacy_models": ["de_core_news_lg"]  # You could add more if needed
 }
 ```
 
-Next, you can execute the evaluation script:
+## Running the quantitative evaluation
+
+To run the quantitative evaluation using the LLM-as-a-judge approach, you can execute the evaluation script:
 
 ```bash
 python evaluate_benchmarks.py --benchmark-dir ../data/benchmark_results --output-dir ../data/evaluation_results --eval-model gemma3:12b --max-retries 2
@@ -133,6 +136,16 @@ Finally, you can run the visualization pipeline:
 ```bash
 python visualize_results.py --eval-dir ../data/evaluation_results --output-dir ../data/visualizations
 ```
+
+## Running the qualitative evaluation
+
+To qualitatively evaluate the benchmark results, collect the results into a single CSV file:
+
+```bash
+python prepare_qualitative_eval.py --input ../data/benchmark_results_final/ --output ../data/evaluation_results_final/ --mode combine
+```
+
+Next, you need to give scores for each answer and combination of LLM, chunk size, embedding model, and spacy model.
 
 ## Data
 The data of the legal basis can be found under https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=LrW&Gesetzesnummer=20000006
