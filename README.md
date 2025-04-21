@@ -53,13 +53,13 @@ Make sure you have Git, Python 3.12+ and Docker installed on your machine.
    docker compose --profile gpu up -d
    ```
 
-6. **Install Ollama model llama3.2**
+6. **Install Ollama model**
 
-   Pull the required model llama3.2 by running:
+   Pull the required model by running, choose either `ollama-cpu` or `ollama-gpu`:
 
    ```bash
-   docker exec ollama ollama run llama3-chatqa:8b
-   docker exec ollama ollama run gemma3:12b
+   docker exec ollama-cpu ollama run llama3-chatqa:8b
+   docker exec ollama-cpu ollama run gemma3:27b
    ```
 
 7. **Install model for chunking**
