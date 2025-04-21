@@ -2,7 +2,7 @@ fastapi[standard]
 requests
 ollama
 uvicorn[standard]
-elasticsearch
+elasticsearch==8.15.0
 spacy
 sentence-transformers
 torch<2.5.0
