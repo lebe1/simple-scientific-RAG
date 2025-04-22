@@ -1,0 +1,214 @@
+
+    <html>
+    <head>
+        <title>RAG Evaluation Results</title>
+        <style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1, h2 { color: #333366; }
+            table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+            th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
+            th { background-color: #f2f2f2; }
+            tr:nth-child(even) { background-color: #f9f9f9; }
+        </style>
+    </head>
+    <body>
+        <h1>RAG Evaluation Results Summary</h1>
+        <p>Generated on: 2025-04-13 15:09:24</p>
+
+        <h2>Top 10 Configurations by Average Score</h2>
+        <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>llm_model</th>
+      <th>embedding_model</th>
+      <th>chunk_size</th>
+      <th>answer_relevancy_score</th>
+      <th>average_score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>llama3-chatqa:8b</td>
+      <td>jina-embeddings-v2-base-de</td>
+      <td>32</td>
+      <td>0.977273</td>
+      <td>0.977273</td>
+    </tr>
+    <tr>
+      <td>gemma3:12b</td>
+      <td>jina-embeddings-v2-base-de</td>
+      <td>64</td>
+      <td>0.977273</td>
+      <td>0.977273</td>
+    </tr>
+    <tr>
+      <td>llama3-chatqa:8b</td>
+      <td>jina-embeddings-v2-base-de</td>
+      <td>8</td>
+      <td>0.977273</td>
+      <td>0.977273</td>
+    </tr>
+    <tr>
+      <td>gemma3:12b</td>
+      <td>paraphrase-multilingual-MiniLM-L12-v2</td>
+      <td>64</td>
+      <td>0.977273</td>
+      <td>0.977273</td>
+    </tr>
+    <tr>
+      <td>gemma3:12b</td>
+      <td>paraphrase-multilingual-MiniLM-L12-v2</td>
+      <td>32</td>
+      <td>0.969697</td>
+      <td>0.969697</td>
+    </tr>
+    <tr>
+      <td>gemma3:12b</td>
+      <td>jina-embeddings-v2-base-de</td>
+      <td>32</td>
+      <td>0.969697</td>
+      <td>0.969697</td>
+    </tr>
+    <tr>
+      <td>gemma3:12b</td>
+      <td>jina-embeddings-v2-base-de</td>
+      <td>4</td>
+      <td>0.936364</td>
+      <td>0.936364</td>
+    </tr>
+    <tr>
+      <td>llama3-chatqa:8b</td>
+      <td>jina-embeddings-v2-base-de</td>
+      <td>16</td>
+      <td>0.933333</td>
+      <td>0.933333</td>
+    </tr>
+    <tr>
+      <td>gemma3:12b</td>
+      <td>jina-embeddings-v2-base-de</td>
+      <td>8</td>
+      <td>0.925325</td>
+      <td>0.925325</td>
+    </tr>
+    <tr>
+      <td>gemma3:12b</td>
+      <td>jina-embeddings-v2-base-de</td>
+      <td>16</td>
+      <td>0.925325</td>
+      <td>0.925325</td>
+    </tr>
+  </tbody>
+</table>
+
+        <h2>Best Configuration for Each Metric</h2>
+        <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Metric</th>
+      <th>Best Score</th>
+      <th>LLM Model</th>
+      <th>Embedding Model</th>
+      <th>Chunk Size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>answer_relevancy</td>
+      <td>1.0</td>
+      <td>llama3-chatqa:8b</td>
+      <td>jina-embeddings-v2-base-de</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+
+        <h2>Average Scores by LLM Model</h2>
+        <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>answer_relevancy_score</th>
+    </tr>
+    <tr>
+      <th>llm_model</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>gemma3:12b</th>
+      <td>0.925902</td>
+    </tr>
+    <tr>
+      <th>llama3-chatqa:8b</th>
+      <td>0.914646</td>
+    </tr>
+  </tbody>
+</table>
+
+        <h2>Average Scores by Embedding Model</h2>
+        <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>answer_relevancy_score</th>
+    </tr>
+    <tr>
+      <th>embedding_model</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>jina-embeddings-v2-base-de</th>
+      <td>0.927579</td>
+    </tr>
+    <tr>
+      <th>paraphrase-multilingual-MiniLM-L12-v2</th>
+      <td>0.911291</td>
+    </tr>
+  </tbody>
+</table>
+
+        <h2>Average Scores by Chunk Size</h2>
+        <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>answer_relevancy_score</th>
+    </tr>
+    <tr>
+      <th>chunk_size</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>4</th>
+      <td>0.854545</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>0.914502</td>
+    </tr>
+    <tr>
+      <th>16</th>
+      <td>0.927994</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>0.972222</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>0.954545</td>
+    </tr>
+    <tr>
+      <th>128</th>
+      <td>0.909091</td>
+    </tr>
+  </tbody>
+</table>
+    </body>
+    </html>
+    

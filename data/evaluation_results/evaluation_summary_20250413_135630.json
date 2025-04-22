@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-04-13T13:56:30.507966",
+  "total_evaluated_files": 18,
+  "evaluation_model": "gemma3:27b",
+  "evaluated_files": [
+    "../data/evaluation_results/evaluation_results_llama3-chatqa:8b_jina-embeddings-v2-base-de_4kb_de_core_news_lg_20250413_081652.json",
+    "../data/evaluation_results/evaluation_results_llama3-chatqa:8b_jina-embeddings-v2-base-de_8kb_de_core_news_lg_20250413_081658.json",
+    "../data/evaluation_results/evaluation_results_llama3-chatqa:8b_jina-embeddings-v2-base-de_16kb_de_core_news_lg_20250413_081901.json",
+    "../data/evaluation_results/evaluation_results_llama3-chatqa:8b_jina-embeddings-v2-base-de_32kb_de_core_news_lg_20250413_081907.json",
+    "../data/evaluation_results/evaluation_results_llama3-chatqa:8b_jina-embeddings-v2-base-de_64kb_de_core_news_lg_20250413_082122.json",
+    "../data/evaluation_results/evaluation_results_llama3-chatqa:8b_jina-embeddings-v2-base-de_128kb_de_core_news_lg_20250413_082128.json",
+    "../data/evaluation_results/evaluation_results_gemma3:12b_jina-embeddings-v2-base-de_4kb_de_core_news_lg_20250413_083826.json",
+    "../data/evaluation_results/evaluation_results_gemma3:12b_jina-embeddings-v2-base-de_8kb_de_core_news_lg_20250413_083832.json",
+    "../data/evaluation_results/evaluation_results_gemma3:12b_jina-embeddings-v2-base-de_16kb_de_core_news_lg_20250413_084046.json",
+    "../data/evaluation_results/evaluation_results_gemma3:12b_jina-embeddings-v2-base-de_32kb_de_core_news_lg_20250413_084053.json",
+    "../data/evaluation_results/evaluation_results_gemma3:12b_jina-embeddings-v2-base-de_64kb_de_core_news_lg_20250413_084317.json",
+    "../data/evaluation_results/evaluation_results_gemma3:12b_jina-embeddings-v2-base-de_128kb_de_core_news_lg_20250413_084324.json",
+    "../data/evaluation_results/evaluation_results_gemma3:12b_paraphrase-multilingual-MiniLM-L12-v2_4kb_de_core_news_lg_20250413_084502.json",
+    "../data/evaluation_results/evaluation_results_gemma3:12b_paraphrase-multilingual-MiniLM-L12-v2_8kb_de_core_news_lg_20250413_084506.json",
+    "../data/evaluation_results/evaluation_results_gemma3:12b_paraphrase-multilingual-MiniLM-L12-v2_16kb_de_core_news_lg_20250413_084652.json",
+    "../data/evaluation_results/evaluation_results_gemma3:12b_paraphrase-multilingual-MiniLM-L12-v2_32kb_de_core_news_lg_20250413_084657.json",
+    "../data/evaluation_results/evaluation_results_gemma3:12b_paraphrase-multilingual-MiniLM-L12-v2_64kb_de_core_news_lg_20250413_084854.json",
+    "../data/evaluation_results/evaluation_results_gemma3:12b_paraphrase-multilingual-MiniLM-L12-v2_128kb_de_core_news_lg_20250413_084859.json"
+  ]
+}

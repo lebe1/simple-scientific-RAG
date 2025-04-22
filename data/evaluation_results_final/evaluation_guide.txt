@@ -1,0 +1,39 @@
+
+RAG EVALUATION CRITERIA GUIDE
+=============================
+
+When evaluating the RAG outputs in the CSV file, use these criteria:
+
+1. CONTEXT QUALITY (1-5)
+   1 - Completely irrelevant context
+   2 - Mostly irrelevant with some useful information
+   3 - Contains partial relevant information
+   4 - Contains most relevant information
+   5 - Perfect context retrieval
+
+2. ANSWER RELEVANCE (1-5)
+   1 - Answer doesn't address the question at all
+   2 - Answer is tangentially related to the question
+   3 - Answer partially addresses the question
+   4 - Answer addresses the question but misses minor points
+   5 - Answer perfectly addresses the question
+
+3. ANSWER CORRECTNESS (1-5)
+   1 - Answer is completely incorrect
+   2 - Answer contains mostly incorrect information
+   3 - Answer contains a mix of correct and incorrect information
+   4 - Answer is mostly correct with minor errors
+   5 - Answer is completely correct
+
+4. FAITHFULNESS TO CONTEXT (1-5)
+   1 - Answer contradicts or fabricates beyond the context
+   2 - Answer mostly contains information not in the context
+   3 - Answer uses some information from context but adds unsupported details
+   4 - Answer mostly sticks to context with minimal extrapolation
+   5 - Answer completely faithful to the provided context
+
+NOTES:
+- Use this column for qualitative observations
+- Note any specific issues, patterns or ideas for improvement
+- For legal texts, pay special attention to accuracy of legal references
+        

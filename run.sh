@@ -7,7 +7,8 @@ sudo mv /usr/local/bin/docker-compose /usr/bin/docker-compose
 sudo chmod +x /usr/bin/docker-compose
 docker-compose build
 docker-compose up -d
-docker exec ollama ollama run llama3.2
+docker exec ollama ollama run llama3-chatqa:8b
+docker exec ollama ollama run gemma3:12b
 python -m spacy download de_core_news_lg
 docker-compose up -d
 python app/workflow.py update-es-index

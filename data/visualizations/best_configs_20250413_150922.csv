@@ -1,0 +1,2 @@
+Metric,Best Score,LLM Model,Embedding Model,Chunk Size
+answer_relevancy,1.0,llama3-chatqa:8b,jina-embeddings-v2-base-de,4
