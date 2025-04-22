@@ -43,15 +43,23 @@ Make sure you have Git, Python 3.12+ and Docker installed on your machine.
 5. **Run docker container**
 
    Run docker-compose.yml to pull the required image:
+
    ```bash
-   docker compose up -d
+   docker compose --profile cpu up -d
    ```
-6. **Install Ollama model llama3.2**
-
-   Pull the required model llama3.2 by running:
+   If you have GPU available, run it with the GPU profile enabled:
 
    ```bash
-   docker exec ollama ollama run llama3.2
+   docker compose --profile gpu up -d
+   ```
+
+6. **Install Ollama model**
+
+   Pull the required model by running, choose either `ollama-cpu` or `ollama-gpu`:
+
+   ```bash
+   docker exec ollama-cpu ollama run llama3-chatqa:8b
+   docker exec ollama-cpu ollama run gemma3:27b
    ```
 
 7. **Install model for chunking**
@@ -63,16 +71,11 @@ Make sure you have Git, Python 3.12+ and Docker installed on your machine.
 8. **Create the index from the legal text**
 
     ```bash
-    python app/workflow.py update-es-index
+    ./run_workflow_create_index_small
+    ./run_workflow_create_index
     ```
 
 ## Running the application after setup instructions
-
-If Docker containers are not running yet, start them again with:
-
-```bash
-docker compose up -d
-```
 
 **Note:** If you want to improve your runtime and you have access to a GPU, comment out the commented lines of code in the `docker-compose.yml`
 
@@ -96,35 +99,62 @@ curl -X POST "http://127.0.0.1:8000/api/search" -H "Content-Type: application/js
 
 Or by opening the built-in Swagger of FastAPI via `http://127.0.0.1:8000/docs`
 
-### Recreating the embeddings
+## Running the automated benchmark execution
 
-In case the current datafile `data/legal-basis.txt` is changed or extended, you have to re-create the embeddings as follows:
-
-```bash
-# This assumes you have the venv environment enabled and you are inside the app/ directory
-python workflow.py create-embeddings
-```
-
-It takes the datafile `data/legal-basis.txt` as input, chunks it into 4kb parts, and computes the embeddings using `jinaai/jina-embeddings-v2-base-de`.  
-Afterwards, the results of the current datafile are stored in the numpy array `data/embeddings.npy` to later on load it easily. We copied the `data/embeddings.npy` to `data/jina-embeddings-v2-base-de-4kb` to store the embeddings created from 4kb chunks as backup/reference. 
-
-## Running the automated question query
-
-For now, this only works when the fastapi server is called outside of docker. If the fastapi server is running on docker, you need to stop it first, to be able to execute the following command:
+Assuming that you executed the `uvicorn` command above, execute:
 
 ```bash
-cd app
+cd app;
+python benchmark.py --questions ../data/sample_questions.txt --references ../data/sample_answers.txt --output-dir ../data/benchmark_results_final
+./cleanup_empty_json.sh -d data/benchmark_results_final/
 ```
+
+Which will execute the following combinations of multiple llm-model, chunk-size, and model embedding:
+```python
+CONFIGURATIONS = {
+    "llm_models": ["llama3-chatqa:8b", "gemma3:27b"],  # Add other models you have in Ollama
+    "embedding_models": [
+        "jinaai/jina-embeddings-v2-base-de",
+        "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"  # Add other embedding models
+    ],
+    "chunk_sizes": [0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32, 64, 128],  # Chunk sizes in KB
+    "spacy_models": ["de_core_news_lg"]  # You could add more if needed
+}
+```
+
+The `cleanup_empty_json.sh` script cleans empty JSON files that get created during the benchmark workflow.
+
+## Running the quantitative evaluation
+
+To run the quantitative evaluation using the LLM-as-a-judge approach, you can execute the evaluation script:
 
 ```bash
-uvicorn main:app --reload
+python evaluate_benchmarks.py --benchmark-dir ../data/benchmark_results --output-dir ../data/evaluation_results --eval-model gemma3:12b --max-retries 2
 ```
 
-Open a second terminal in the same directory and run:
+> Please note that you could use any LLM to evaluate, you just need to run it in the ollama container first. The `max-retries` was added to try multiple times in case the LLM does not provide a proper JSON structure.
+
+Finally, you can run the visualization pipeline:
 
 ```bash
-python question_query.py
+python visualize_results.py --eval-dir ../data/evaluation_results --output-dir ../data/visualizations
 ```
+
+## Running the qualitative evaluation
+
+To qualitatively evaluate the benchmark results, collect the results into a single CSV file:
+
+```bash
+python prepare_qualitative_eval.py --input ../data/benchmark_results_final/ --output ../data/evaluation_results_final/ --mode combine
+```
+
+Next, you need to give scores for each answer and combination of LLM, chunk size, embedding model, and spacy model. Either you manually fill it out, or you let other LLMs do it like ChatGPT or Claude. Finally, you execute the following visualization pipeline:
+
+```bash
+python visualize_qualitative_eval.py
+```
+
+Which will store the evaluation results under `data/evaluation_results_final`.
 
 ## Data
 The data of the legal basis can be found under https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=LrW&Gesetzesnummer=20000006

@@ -7,7 +7,7 @@ FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = '../data/legal-basis.txt'
 
 class Workflow:
-    def __init__(self, model='jinaai/jina-embeddings-v2-base-de', spacy_model='de_core_news_lg', chunk_size_in_kb=4, index_name="documents"):
+    def __init__(self, model='jinaai/jina-embeddings-v2-base-de', spacy_model='de_core_news_lg', chunk_size_in_kb=4.0, index_name="documents"):
         self.processor = Processor(spacy_model=spacy_model, chunk_size_in_kb=chunk_size_in_kb)
         self.embedding = Embedding(spacy_model=spacy_model, chunk_size_in_kb=chunk_size_in_kb, model=model)
         self.es = Search(embedding=self.embedding)
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     # Required argument for operation
     parser.add_argument(
         'operation',
-        choices=['create-embeddings', 'update-es-index'],
+        choices=['create-embeddings', 'update-es-index', 'create-embeddings-by-article', 'create-embeddings-by-subarticle'],
         help="Operation to perform: 'create-embeddings' or 'update-es-index'"
     )
 
@@ -67,8 +67,8 @@ if __name__ == "__main__":
 
     parser.add_argument(
         '--chunk-size',
-        type=int,
-        default=4,
+        type=float,
+        default=4.0,
         help="Chunk size in KB (default: 4)"
     )
 
