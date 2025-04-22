@@ -43,18 +43,19 @@ class IndividualEval:
                 
  
         return {
+            "index": self.index,
             "output_score": output_score,
             "retrieval_score": retrieval_score
         }
 
-# Example usage
-indi = IndividualEval(
-    "1. Wie hoch darf ein Gebäude in Bauklasse I gemäß Artikel IV in Wien sein?",
-    "1. Ein Gebäude in Bauklasse I darf maximal 7,50 Meter hoch sein.",
-    "1. Ein Gebäude in Bauklasse I darf maximal 7,50 Meter hoch sein.",
-    "1. Ein Gebäude in Bauklasse I darf maximal 7,50 Meter hoch sein.",
-    8
-)
+# # Example usage
+# indi = IndividualEval(
+#     input="1. Wie hoch darf ein Gebäude in Bauklasse I gemäß Artikel IV in Wien sein?",
+#     actual_output="1. Ein Gebäude in Bauklasse I darf maximal 7,50 Meter hoch sein.",
+#     expected_output="1. Ein Gebäude in Bauklasse I darf maximal 7,50 Meter hoch sein.",
+#     retrieval_context="1. Ein Gebäude in Bauklasse I darf maximal 7,50 Meter hoch sein.",
+#     index=8
+# )
 
-result = indi.evaluate()
-print(result)
+# result = indi.evaluate()
+# print(result)

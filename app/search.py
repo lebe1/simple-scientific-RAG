@@ -145,7 +145,3 @@ class Search:
         # Return the top-ranked chunk and its score
         return best_chunks, average_score  # Return the best chunk
     
-    def __del__(self):
-        """Close the Elasticsearch connection."""
-        self.es.close()
-        print('Connection to Elasticsearch closed!')

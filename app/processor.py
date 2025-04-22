@@ -71,13 +71,13 @@ class Processor:
         return articles
 
     def save(self, chunks):
-        file_name = f'../data/{self.spacy_model}_{self.chunk_size_in_kb}kb_chunks.pkl'
+        file_name = f'../data/chunks/{self.spacy_model}_{self.chunk_size_in_kb}kb_chunks.pkl'
         path = os.path.join(FILE_PATH, file_name)
         with open(path, 'wb') as f:
             pickle.dump(chunks, f)
 
     def load(self):
-        file_name = f'../data/{self.spacy_model}_{self.chunk_size_in_kb}kb_chunks.pkl'
+        file_name = f'../data/chunks/{self.spacy_model}_{self.chunk_size_in_kb}kb_chunks.pkl'
         path = os.path.join(FILE_PATH, file_name)
         with open(path, 'rb') as f:
             chunks = pickle.load(f)
