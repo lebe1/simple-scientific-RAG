@@ -1,11 +1,12 @@
 from elasticsearch import Elasticsearch
 from pprint import pprint
-from sentence_transformers import SentenceTransformer, CrossEncoder
+from sentence_transformers import CrossEncoder
 import gc
 import os
 from pathlib import Path
-from embedding import Embedding
 import numpy as np
+
+TOP_K_CHUNKS=3
 
 def load_env_file(filepath):
     with open(filepath) as f:
@@ -26,7 +27,6 @@ class Search:
 
         # Load the Cross-Encoder model for scoring
         self.cross_encoder = CrossEncoder('cross-encoder/msmarco-MiniLM-L12-en-de-v1', max_length=512)
-
 
         # Load the .env file
         load_env_file(env_path)
@@ -136,7 +136,7 @@ class Search:
         chunk_score_pairs.sort(key=lambda x: x[1], reverse=True)  # Sort by score in descending order
 
         # Important parameter here: Set the top k chunks here considered for retrieval
-        chunks_subset = chunk_score_pairs[:3]
+        chunks_subset = chunk_score_pairs[:TOP_K_CHUNKS]
         # Merge best chunks
         best_chunks = " ".join(text for text, _ in chunks_subset)
         # Calculate the average score
@@ -144,4 +144,12 @@ class Search:
 
         # Return the top-ranked chunk and its score
         return best_chunks, average_score  # Return the best chunk
+    
+    def __del__(self):
+        """Close the Elasticsearch connection."""
+        try:
+            self.es.close()
+            print('Connection to Elasticsearch closed!')
+        except Exception as e:
+            print(f"Exception ignored in __del__: {e}")
     
