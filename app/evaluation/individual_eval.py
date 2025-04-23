@@ -14,32 +14,49 @@ class IndividualEval:
             case 1:
                 output_score = 1 if any(x in self.actual_output for x in ["7,5", "7,50", "7.5", "7.50"]) else 0
                 retrieval_score = 1 if "7,50" in self.retrieval_context else 0
-            
+       
             case 2:                
                 output_score = 1 if "25" in self.actual_output else 0
-                retrieval_score = 1 if "25" in self.actual_output else 0
+                retrieval_score = 1 if "25" in self.retrieval_context else 0
 
             case 3:
                 output_score = 1 if any(x in self.actual_output for x in ["1600", "1.600", "1000", "1.000"]) else 0
-                retrieval_score = 1 if any(x in self.actual_output for x in ["§ 7c", "§7c"]) else 0
+                retrieval_score = 1 if any(x in self.retrieval_context for x in ["§ 7c", "§7c"]) else 0
 
             case 4:
                 output_score = 1 if "20" in self.actual_output else 0
-                retrieval_score = 1 if any(x in self.actual_output for x in ["§ 83", "§83"]) else 0
+                retrieval_score = 1 if any(x in self.retrieval_context for x in ["§ 83", "§83"]) else 0
 
             case 5:
                 output_score = 1 if "26" in self.actual_output else 0
-                retrieval_score = 1 if any(x in self.actual_output for x in ["§ 70a", "§70a"]) else 0
+                retrieval_score = 1 if any(x in self.retrieval_context for x in ["§ 70a", "§70a"]) else 0
 
 
             case 6:
                 output_score = 1 if "2" in self.actual_output else 0
-                retrieval_score = 1 if any(x in self.actual_output for x in ["§ 79", "§79"]) else 0
+                retrieval_score = 1 if any(x in self.retrieval_context for x in ["§ 79", "§79"]) else 0
 
 
             case 7:
                 output_score = 1 if any(x in self.actual_output for x in ["Nein", "nicht"]) else 0
-                retrieval_score = 1 if any(x in self.actual_output for x in ["§ 62a", "§62a"]) else 0
+                retrieval_score = 1 if any(x in self.retrieval_context for x in ["§ 62a", "§62a"]) else 0
+
+            case 8:
+                output_score = 1 if any(x in self.actual_output for x in ["250", "§76", "§ 76", "§80", "§ 80"]) else 0
+                retrieval_score = 1 if any(x in self.retrieval_context for x in ["250", "§76", "§ 76", "§80", "§ 80"]) else 0
+            
+            case 9:
+                output_score = 1 if any(x in self.actual_output for x in ["20", "§17", "§ 17"]) else 0
+                retrieval_score = 1 if any(x in self.retrieval_context for x in ["20", "§17", "§ 17"]) else 0
+
+            case 10:
+                output_score = 1 if any(x in self.actual_output for x in ["§128", "§ 128", "§62a", "§ 62a", "Fertigstellungsanzeige"]) else 0
+                retrieval_score = 1 if any(x in self.retrieval_context for x in ["§128", "§ 128", "§62a", "§ 62a", "Fertigstellungsanzeige"]) else 0
+            
+            case 11:
+                output_score = 1 if any(x in self.actual_output for x in ["§128", "§ 128", "§62a", "§ 62a", "Fertigstellungsanzeige"]) else 0
+                retrieval_score = 1 if any(x in self.retrieval_context for x in ["§128", "§ 128", "§62a", "§ 62a", "Fertigstellungsanzeige"]) else 0
+       
                 
  
         return {

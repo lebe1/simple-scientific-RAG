@@ -2,7 +2,7 @@ import requests
 from datetime import datetime, timedelta, timezone
 import ollama
 import json
-from app.evaluation.individual_eval import IndividualEval
+from individual_eval import IndividualEval
 
 
 # Function to read questions file
@@ -37,11 +37,11 @@ def post_question(question):
     
 # Main function to read questions, send requests, and store answers
 if __name__ == "__main__":
-    questions_file = '../data/sample_questions2.txt' 
-    answers_file = '../data/sample_answers2.txt'
+    questions_file = '../../data/sample_questions.txt' 
+    answers_file = '../../data/sample_answers.txt'
     local_time = datetime.now(timezone.utc) + timedelta(hours=2)
 
-    output_file = f"../data/generated_answers{local_time.strftime('%Y-%m-%d %H:%M:%S')}.txt" 
+    output_file = f"../../data/generated_answers{local_time.strftime('%Y-%m-%d %H:%M:%S')}.txt" 
 
     # Read questions from the file
     questions = read_lines_from_file(questions_file)
@@ -83,7 +83,7 @@ if __name__ == "__main__":
             input=questions[index],
             actual_output=answers[index],
             expected_output=references[index],
-            retrieval_context=[contexts[index]],
+            retrieval_context=contexts[index],
             index=index+1
         )
 
@@ -91,6 +91,11 @@ if __name__ == "__main__":
 
         results.append(metrics_result)
 
+    total_output_score = sum(r["output_score"] for r in results)
+    total_retrieval_score = sum(r["retrieval_score"] for r in results)
+
+    results.append({"total_output_score":total_output_score, "total_retrieval_score":total_retrieval_score})
+
     # Save results to JSON file
-    with open(f"../data/evaluation_results{local_time.strftime('%Y-%m-%d %H:%M:%S')}.json", "w") as f:
+    with open(f"../../data/evaluation_results{local_time.strftime('%Y-%m-%d %H:%M:%S')}.json", "w") as f:
         json.dump(results, f, indent=4)
