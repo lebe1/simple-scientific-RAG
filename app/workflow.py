@@ -90,6 +90,6 @@ if __name__ == "__main__":
     elif args.operation == 'update-es-index':
         workflow.update_es_index()
     elif args.operation == 'create-embeddings-by-article':
-        workflow.create_new_embeddings(split_by_article=True, split_by_subarticle=True)
+        workflow.create_new_embeddings(split_by_article=True)
     elif args.operation == 'create-embeddings-by-subarticle':
-        workflow.create_new_embeddings(split_by_article=True, split_by_subarticle=True)
+        workflow.create_new_embeddings(split_by_subarticle=True)

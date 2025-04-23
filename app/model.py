@@ -20,7 +20,7 @@ class Model:
             options={'temperature': temperature},
             messages=[{
                 'role': 'user',
-                'content': f"Du hast folgende Information: {context}. \n Antworte auf die folgende Frage in einem vollen Satz mit mindestens 5 Wörtern und maximal 15 Wörtern. {question}"
+                'content': f"Du hast folgende Information: {context}. \n Antworte auf die folgende Frage in einem vollen Satz mit mindestens 5 Wörtern und maximal 15 Wörtern. Gebe dabei immer deine Quellen an. {question}"
             }]
         )
         return [response['message']['content'], context]
