@@ -26,21 +26,6 @@ services:
               capabilities: [gpu]
     profiles:
       - gpu
-  # TODO Make this work or remove it before submission
-  # fastapi_server:
-  #   build:
-  #     context: .    
-  #   image: python:3.12
-  #   container_name: fastapi_server
-  #   working_dir: /code
-  #   volumes:
-  #     - ./app:/code/app
-  #     - ./requirements.txt:/code/requirements.txt
-  #   ports:
-  #     - "8001:80"
-  #   deploy:
-  #     restart_policy:
-  #       condition: on-failure
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:${ES_LOCAL_VERSION}

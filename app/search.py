@@ -1,10 +1,9 @@
 from elasticsearch import Elasticsearch
 from pprint import pprint
-from sentence_transformers import SentenceTransformer, CrossEncoder
+from sentence_transformers import CrossEncoder
 import gc
 import os
 from pathlib import Path
-from embedding import Embedding
 import numpy as np
 
 def load_env_file(filepath):
@@ -19,10 +18,16 @@ def load_env_file(filepath):
             os.environ[key.strip()] = value.strip()
 
 class Search:
-    def __init__(self, embedding):
+    def __init__(self, embedding, select_top_k=5):
         self.embedding = embedding
         # Define the path to the .env file
         env_path = Path(__file__).resolve().parent.parent / '.env'
+
+        # Load the Cross-Encoder model for scoring
+        self.cross_encoder = CrossEncoder('cross-encoder/msmarco-MiniLM-L12-en-de-v1', max_length=512)
+        
+        # Set the top k number
+        self.select_top_k = select_top_k
 
         # Load the .env file
         load_env_file(env_path)
@@ -77,7 +82,7 @@ class Search:
                 print(f"Skipping chunk {i} due to invalid embedding (zero magnitude or NaN values)")
                 skipped_chunks += 1
 
-    def search(self, query, top_k=30):
+    def search(self, query, retrieve_top_k=30):
         """Search for relevant chunks in Elasticsearch."""
         # Generate embedding for the query
         print(f"Generating embedding for the query...")
@@ -99,14 +104,14 @@ class Search:
                     }
                 }
             },
-            'size': top_k
+            'size': retrieve_top_k
         })
 
         # Extract and return the relevant chunks
         retrieved_chunks = [hit['_source']['text'] for hit in response['hits']['hits']]
 
         print(f"Reranking relevant chunks...")
-        best_chunk, score = self.rank_chunks_with_cross_encoder(query, retrieved_chunks)
+        best_chunk, _ = self.rank_chunks_with_cross_encoder(query, retrieved_chunks)
 
         # Save memory by clearing the embeddings
         del response
@@ -120,22 +125,21 @@ class Search:
     
     def rank_chunks_with_cross_encoder(self, query, retrieved_chunks):
         """Rank the retrieved chunks based on their relevance to the query using SBERT Cross-Encoder."""
-        # Load the Cross-Encoder model for scoring
-        cross_encoder = CrossEncoder('cross-encoder/msmarco-MiniLM-L12-en-de-v1', max_length=512)
 
         # Create (query, chunk) pairs for Cross-Encoder scoring
         query_chunk_pairs = [[query, chunk] for chunk in retrieved_chunks]
 
         # Score the pairs using the Cross-Encoder
-        scores = cross_encoder.predict(query_chunk_pairs)
+        scores = self.cross_encoder.predict(query_chunk_pairs)
 
         # Combine chunks with their scores and sort by relevance
         chunk_score_pairs = list(zip(retrieved_chunks, scores))
         chunk_score_pairs.sort(key=lambda x: x[1], reverse=True)  # Sort by score in descending order
 
-        chunks_subset = chunk_score_pairs[:10]
+        # Important parameter here: Set the top k chunks here considered for retrieval
+        chunks_subset = chunk_score_pairs[:self.select_top_k]
         # Merge best chunks
-        best_chunks = " ".join(text for text, _ in chunks_subset)
+        best_chunks = "\n\n".join(text for text, _ in chunks_subset)
         # Calculate the average score
         average_score = sum(score for _, score in chunks_subset) / len(chunks_subset)
 
@@ -144,5 +148,9 @@ class Search:
     
     def __del__(self):
         """Close the Elasticsearch connection."""
-        self.es.close()
-        print('Connection to Elasticsearch closed!')
+        try:
+            self.es.close()
+            print('Connection to Elasticsearch closed!')
+        except Exception as e:
+            print(f"Exception ignored in __del__: {e}")
+    

@@ -12,7 +12,7 @@ class Workflow:
         self.embedding = Embedding(spacy_model=spacy_model, chunk_size_in_kb=chunk_size_in_kb, model=model)
         self.es = Search(embedding=self.embedding)
 
-    def create_new_embeddings(self, split_by_article=False, split_by_subarticle=False):
+    def create_new_embeddings(self, split_by_article=False, split_by_subarticle=False, index_after_creation=True):
         # Read the legal basis text
         legal_text_path = os.path.join(FILE_PATH, DATA_PATH)
         with open(legal_text_path, 'r', encoding='utf-8') as file:
@@ -30,6 +30,9 @@ class Workflow:
         # Generate embeddings for each chunk
         embeddings = self.embedding.create_embeddings(chunks)
         self.embedding.save(embeddings)
+
+        if index_after_creation:
+            self.es.index_chunks(chunks, embeddings, self.embedding.index_name)
 
     def update_es_index(self):
         chunks = self.processor.load()
@@ -87,6 +90,6 @@ if __name__ == "__main__":
     elif args.operation == 'update-es-index':
         workflow.update_es_index()
     elif args.operation == 'create-embeddings-by-article':
-        workflow.create_new_embeddings(split_by_article=True, split_by_subarticle=True)
+        workflow.create_new_embeddings(split_by_article=True)
     elif args.operation == 'create-embeddings-by-subarticle':
-        workflow.create_new_embeddings(split_by_article=True, split_by_subarticle=True)
+        workflow.create_new_embeddings(split_by_subarticle=True)

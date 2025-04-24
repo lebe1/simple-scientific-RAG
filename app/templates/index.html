@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Legal RAG System</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            margin-top: 40px;
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #222;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 5px;
+        }
+
+        select, input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+
+        input[type="submit"] {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #4338ca;
+        }
+
+        pre {
+            background-color: #f0f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        h3 {
+            color: #333;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Model Interface</h1>
+        <form method="post">
+            <label for="task">Task:</label>
+            <select name="task" id="task">
+                <option value="chat" {% if task == "chat" %}selected{% endif %}>Chat</option>
+                <option value="rag" {% if task == "rag" %}selected{% endif %}>RAG</option>
+                <option value="search" {% if task == "search" %}selected{% endif %}>Search</option>
+            </select>
+
+            <label for="question">Question or Query:</label>
+            <textarea name="question" rows="4">{{ question or "" }}</textarea>
+
+            <label for="model">Model:</label>
+            <input type="text" name="model" value="{{ model or 'sentence-transformers-paraphrase-multilingual-minilm-l12-v2' }}">
+
+            <label for="spacy_model">SpaCy Model:</label>
+            <input type="text" name="spacy_model" value="{{ spacy_model or 'de_core_news_lg' }}">
+
+            <label for="chunk_size_in_kb">Chunk Size (KB):</label>
+            <input type="number" step="0.1" name="chunk_size_in_kb" value="{{ chunk_size_in_kb or 2.0 }}">
+
+            <label for="top_k_chunks">Top K Chunks:</label>
+            <input type="number" name="top_k_chunks" min="1" value="{{ top_k_chunks or 3 }}">
+
+            <label for="llm_model">LLM Model:</label>
+            <input type="text" name="llm_model" value="{{ llm_model or 'llama3.2' }}">
+
+            <input type="submit" value="Submit">
+        </form>
+
+        {% if context %}
+            <h3>📘 Context:</h3>
+            <pre>{{ context }}</pre>
+        {% endif %}
+
+        {% if result %}
+            <h3>💬 Result:</h3>
+            <pre>{{ result }}</pre>
+        {% endif %}
+    </div>
+</body>
+</html>
