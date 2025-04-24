@@ -6,8 +6,6 @@ import os
 from pathlib import Path
 import numpy as np
 
-TOP_K_CHUNKS=3
-
 def load_env_file(filepath):
     with open(filepath) as f:
         for line in f:
@@ -20,13 +18,16 @@ def load_env_file(filepath):
             os.environ[key.strip()] = value.strip()
 
 class Search:
-    def __init__(self, embedding):
+    def __init__(self, embedding, select_top_k=5):
         self.embedding = embedding
         # Define the path to the .env file
         env_path = Path(__file__).resolve().parent.parent / '.env'
 
         # Load the Cross-Encoder model for scoring
         self.cross_encoder = CrossEncoder('cross-encoder/msmarco-MiniLM-L12-en-de-v1', max_length=512)
+        
+        # Set the top k number
+        self.select_top_k = select_top_k
 
         # Load the .env file
         load_env_file(env_path)
@@ -81,7 +82,7 @@ class Search:
                 print(f"Skipping chunk {i} due to invalid embedding (zero magnitude or NaN values)")
                 skipped_chunks += 1
 
-    def search(self, query, top_k=30):
+    def search(self, query, retrieve_top_k=30):
         """Search for relevant chunks in Elasticsearch."""
         # Generate embedding for the query
         print(f"Generating embedding for the query...")
@@ -103,7 +104,7 @@ class Search:
                     }
                 }
             },
-            'size': top_k
+            'size': retrieve_top_k
         })
 
         # Extract and return the relevant chunks
@@ -136,9 +137,9 @@ class Search:
         chunk_score_pairs.sort(key=lambda x: x[1], reverse=True)  # Sort by score in descending order
 
         # Important parameter here: Set the top k chunks here considered for retrieval
-        chunks_subset = chunk_score_pairs[:TOP_K_CHUNKS]
+        chunks_subset = chunk_score_pairs[:self.select_top_k]
         # Merge best chunks
-        best_chunks = " ".join(text for text, _ in chunks_subset)
+        best_chunks = "\n\n".join(text for text, _ in chunks_subset)
         # Calculate the average score
         average_score = sum(score for _, score in chunks_subset) / len(chunks_subset)
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>AI Model Interface</title>
+    <title>Legal RAG System</title>
     <style>
         body {
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -98,6 +98,9 @@
 
             <label for="chunk_size_in_kb">Chunk Size (KB):</label>
             <input type="number" step="0.1" name="chunk_size_in_kb" value="{{ chunk_size_in_kb or 2.0 }}">
+
+            <label for="top_k_chunks">Top K Chunks:</label>
+            <input type="number" name="top_k_chunks" min="1" value="{{ top_k_chunks or 3 }}">
 
             <label for="llm_model">LLM Model:</label>
             <input type="text" name="llm_model" value="{{ llm_model or 'llama3.2' }}">

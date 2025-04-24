@@ -68,12 +68,21 @@ Make sure you have Git, Python 3.12+ and Docker installed on your machine.
     python -m spacy download de_core_news_lg
     ```
 
-8. **Create the index from the legal text**
+8. **Creating the index**
 
     ```bash
+    python app/workflow.py create-embeddings
+    ```
+
+    *For the experiments, create several indeces with one of the following Scripts*
+
+    ```bash
+    ./run_workflow_create_split_method_index.sh
     ./run_workflow_create_index_small
     ./run_workflow_create_index
     ```
+
+    
 
 ## Running the application after setup instructions
 
@@ -97,15 +106,15 @@ curl -X POST "http://127.0.0.1:8000/api/rag" -H "Content-Type: application/json"
 curl -X POST "http://127.0.0.1:8000/api/search" -H "Content-Type: application/json" -d '{"query": "Wie hoch darf ein Gebäude in Bauklasse I gemäß Artikel IV in Wien sein?", "model":"jinaai/jina-embeddings-v2-base-de", "spacy_model":"de_core_news_lg", "chunk_size_in_kb":4}'
 ```
 
-Or by opening the built-in Swagger of FastAPI via `http://127.0.0.1:8000/docs`
+Or by opening the user interface via `http://127.0.0.1:8000`
 
 ## Running the automated benchmark execution
 
-Assuming that you executed the `uvicorn` command above, execute:
+Assuming again that you executed the `uvicorn` command above, execute:
 
 ```bash
-cd app;
-python benchmark.py --questions ../data/sample_questions.txt --references ../data/sample_answers.txt --output-dir ../data/benchmark_results_final
+cd app/evaluation;
+python benchmark.py --questions ../../data/sample_questions.txt --references ../../data/sample_answers.txt --output-dir ../../data/benchmark_results_final
 ./cleanup_empty_json.sh -d data/benchmark_results_final/
 ```
 
@@ -156,6 +165,26 @@ python visualize_qualitative_eval.py
 
 Which will store the evaluation results under `data/evaluation_results_final`.
 
+## Running the individual evaluation
+
+IMPORTANT: Make sure all docker container as well as the FastAPI App is running in a terminal via `uvicorn main:app --reload`.
+
+Only the arguments `--llm-model` and `select-top-k` will affect the experiment.
+The other two arguments are there to record the embedding chunking method that has been executed beforehand.
+
+```bash
+cd app/evaluation;
+python question_query.py   --embedding-model jinaai/jina-embeddings-v2-base-de   --llm-model llama3.2   --select-top-k 3 5   --splitting-method SUBARTICLE
+```
+
+### Visualizing the results
+
+Make sure the PATH variable is set correctly
+
+```bash
+python visualize_individual_eval.py
+```
+
+
 ## Data
 The data of the legal basis can be found under https://www.ris.bka.gv.at/GeltendeFassung.wxe?Abfrage=LrW&Gesetzesnummer=20000006
-

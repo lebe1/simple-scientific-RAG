@@ -1,25 +1,28 @@
+import argparse
 import requests
 from datetime import datetime, timedelta, timezone
-import ollama
 import json
 from individual_eval import IndividualEval
 
-
-# Function to read questions file
 def read_lines_from_file(filename):
-    questions = []
     try:
-        with open(filename, 'r') as file:
-            questions = [line.strip() for line in file.readlines() if line.strip()]
+        with open(filename, 'r') as f:
+            return [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
         print(f"Error: The file {filename} was not found.")
-    return questions
+        return []
 
-# Function to make POST request with the question and return the response
-def post_question(question):
-    url = "http://localhost:8000/api/rag"  
-    headers = {'Content-Type': 'application/json'} 
-    payload = {'question': question, "model":"jinaai/jina-embeddings-v2-base-de", "spacy_model":"de_core_news_lg", "chunk_size_in_kb":4}  
+def post_question(question, embedding_model, spacy_model, top_k_chunks, llm_model, chunk_size=4):
+    url = "http://localhost:8000/api/rag"
+    headers = {'Content-Type': 'application/json'}
+    payload = {
+        'question': question,
+        "model": embedding_model,
+        "spacy_model": spacy_model,
+        "chunk_size_in_kb": chunk_size,
+        "top_k_chunks":top_k_chunks,
+        "llm_model": llm_model
+    }
     try:
         response = requests.post(url, json=payload, headers=headers)
         if response.status_code == 200:
@@ -34,68 +37,65 @@ def post_question(question):
     except Exception as e:
         print(f"Exception occurred: {str(e)}")
         return None
+
+def run_eval(top_k, embedding_model, llm_model, split_method):
+    questions = read_lines_from_file('../../data/sample_questions.txt')
+    references = read_lines_from_file('../../data/sample_answers.txt')
     
-# Main function to read questions, send requests, and store answers
+    if not questions or not references:
+        print("Missing questions or reference answers.")
+        return
+    
+    for k in top_k:
+        now = datetime.now(timezone.utc) + timedelta(hours=2)
+        timestamp = now.strftime('%Y-%m-%d %H:%M:%S')
+        label = embedding_model.split("/")[-1].replace("-", "_").upper()
+        answer_file = f"../../data/{label}_TOP{k}_{split_method}_{llm_model}_generated_answers{timestamp}.txt"
+        eval_file = f"../../data/{label}_TOP{k}_{split_method}_{llm_model}_evaluation_results{timestamp}.json"
+
+        answers = []
+        contexts = []
+
+        for i, (question, ref) in enumerate(zip(questions, references)):
+            print(f"TOP{k} - Sending Q{i+1}: {question}")
+            result = post_question(question, embedding_model, "de_core_news_lg", k, llm_model)
+            if result:
+                answers.append(f"{i+1}. {result['answer']}")
+                contexts.append(f"{i+1}. {result['context']}")
+            else:
+                answers.append(f"{i+1}. No Answer Received")
+                contexts.append(f"{i+1}. No Context Received")
+
+        with open(answer_file, 'w') as f:
+            for a, c in zip(answers, contexts):
+                f.write("ANTWORT\n" + a + "\n")
+                f.write("KONTEXT\n" + c + "\n")
+
+        results = []
+        for index in range(len(questions)):
+            eval = IndividualEval(
+                input=questions[index],
+                actual_output=answers[index],
+                expected_output=references[index],
+                retrieval_context=contexts[index],
+                index=index+1
+            )
+            results.append(eval.evaluate())
+
+        total_output = sum(r["output_score"] for r in results)
+        total_retrieval = sum(r["retrieval_score"] for r in results)
+        results.append({"total_output_score": total_output, "total_retrieval_score": total_retrieval})
+
+        with open(eval_file, 'w') as f:
+            json.dump(results, f, indent=4)
+        print(f"TOP{k} results saved to {answer_file} and {eval_file}")
+
 if __name__ == "__main__":
-    questions_file = '../../data/sample_questions.txt' 
-    answers_file = '../../data/sample_answers.txt'
-    local_time = datetime.now(timezone.utc) + timedelta(hours=2)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--embedding-model', required=True, help='Embedding model name')
+    parser.add_argument('--llm-model', required=True, help='LLM model name')
+    parser.add_argument('--select-top-k', nargs='+', type=int, required=True, help='Top K values (e.g. 3 5)')
+    parser.add_argument('--splitting-method', choices=["BASELINE", "ARTICLE", "SUBARTICLE"], required=True, help='Document splitting method')
+    args = parser.parse_args()
 
-    output_file = f"../../data/generated_answers{local_time.strftime('%Y-%m-%d %H:%M:%S')}.txt" 
-
-    # Read questions from the file
-    questions = read_lines_from_file(questions_file)
-    references = read_lines_from_file(answers_file)
-
-    if not questions:
-        print("No questions found to process.")       
-    
-    if not references:
-        print("No answers found to process.") 
-
-    answers = []
-    contexts = []
-
-
-    # Iterate through each question and store each response and its context
-    for i, question_reference in enumerate(zip(questions, references)):
-        print(f"Sending Question {i + 1}: {question_reference[0]}")
-        rag_output = post_question(question_reference[0])
-        if rag_output:
-            answers.append(f"{i + 1}. {rag_output['answer']}")
-            contexts.append(f"{i + 1}. {rag_output['context']}")
-        else:
-            answers.append(f"{i + 1}. No Answer Received")
-
-    # Write the answers to a text file
-    with open(output_file, 'w') as file:
-        for answer, context in zip(answers,contexts):
-            file.write('ANTWORT\n' + answer + '\n')
-            file.write('KONTEXT\n' + context + '\n')
-
-    print(f"Questions and responses saved to {output_file}")
-
-    
-    results = []
-
-    for index, _ in enumerate(questions):
-        individual_eval = IndividualEval(
-            input=questions[index],
-            actual_output=answers[index],
-            expected_output=references[index],
-            retrieval_context=contexts[index],
-            index=index+1
-        )
-
-        metrics_result = individual_eval.evaluate()
-
-        results.append(metrics_result)
-
-    total_output_score = sum(r["output_score"] for r in results)
-    total_retrieval_score = sum(r["retrieval_score"] for r in results)
-
-    results.append({"total_output_score":total_output_score, "total_retrieval_score":total_retrieval_score})
-
-    # Save results to JSON file
-    with open(f"../../data/evaluation_results{local_time.strftime('%Y-%m-%d %H:%M:%S')}.json", "w") as f:
-        json.dump(results, f, indent=4)
+    run_eval(args.select_top_k, args.embedding_model, args.llm_model, args.splitting_method)

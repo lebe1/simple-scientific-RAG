@@ -19,6 +19,7 @@ class PromptRequest(BaseModel):
     model: str
     spacy_model: str
     chunk_size_in_kb: float
+    top_k_chunks: int
     llm_model: str = "llama3.2"
 
 class SearchQuery(BaseModel):
@@ -43,7 +44,7 @@ async def handle_search(search: SearchQuery):
 @app.post("/api/rag")
 async def handle_rag(request: PromptRequest):
     embedding = Embedding(spacy_model=request.spacy_model, chunk_size_in_kb=request.chunk_size_in_kb, model=request.model)
-    es = Search(embedding=embedding)
+    es = Search(embedding=embedding, select_top_k=request.top_k_chunks)
     rag_output = model.rag(question=request.question, es=es, model=request.llm_model)
     return {"context": f"{rag_output[1]}", "answer": f"{rag_output[0]}"}
 
@@ -60,16 +61,19 @@ async def form_handler(
     model: str = Form(...),
     spacy_model: str = Form(...),
     chunk_size_in_kb: float = Form(...),
+    top_k_chunks: int = Form(...),
     llm_model: str = Form("llama3.2")
 ):
     result = ""
     context = ""
+
     if task == "chat":
         response = await handle_prompt(PromptRequest(
             question=question,
             model=model,
             spacy_model=spacy_model,
             chunk_size_in_kb=chunk_size_in_kb,
+            top_k_chunks=top_k_chunks,
             llm_model=llm_model
         ))
         result = response["answer"]
@@ -79,6 +83,7 @@ async def form_handler(
             model=model,
             spacy_model=spacy_model,
             chunk_size_in_kb=chunk_size_in_kb,
+            top_k_chunks=top_k_chunks,
             llm_model=llm_model
         ))
         result = response["answer"]
@@ -99,6 +104,7 @@ async def form_handler(
         "model": model,
         "spacy_model": spacy_model,
         "chunk_size_in_kb": chunk_size_in_kb,
+        "top_k_chunks": top_k_chunks,
         "llm_model": llm_model,
         "result": result,
         "context": context

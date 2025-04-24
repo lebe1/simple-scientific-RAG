@@ -1,33 +1,8 @@
-(6a)
-Schwimmbecken sind in gärtnerisch auszugestaltenden Flächen bis zu einem Gesamtausmaß von 60 m³ Rauminhalt zulässig und müssen von Nachbargrenzen einen Abstand von mindestens 3 m haben, sofern der Nachbar nicht einem geringeren Abstand zustimmt. (6)
-Vorgärten, Abstandsflächen und sonstige gärtnerisch auszugestaltende Flächen sowie jene Flächen von Baulosen, die innerhalb der in Abs. 5 genannten Abstände liegen, sind derart gärtnerisch auszugestalten, als zwei Drittel dieser Flächen unversiegelt bleiben und eine bodengebundene Begrünung und Bepflanzung aufweisen müssen, sofern der Bebauungsplan nicht anderes bestimmt. Auf einem Drittel dieser Flächen darf eine Versiegelung mit den auf gärtnerisch auszugestaltenden Flächen zulässigen Bauwerken oder Bauwerksteilen erfolgen. Jene Flächen, die nicht mit solchen Bauwerken oder Bauwerksteilen bebaut sind, sind ebenfalls durch bodengebundene Begrünung und Bepflanzung gärtnerisch auszugestalten und in gutem Zustand zu erhalten.
-Auf gärtnerisch auszugestaltenden Flächen unter Einhaltung der sonstigen Bauvorschriften und Bebauungsvorschriften zulässig aber in das Ausmaß der versiegelten Flächen einzurechnen sind jedenfalls folgende Bauwerke oder Bauwerksteile:
-1.
-befestigte Wege,
-2.
-Zufahrten und Rampen zu Anlagen zum Einstellen von Kraftfahrzeugen,
-3.
-Anlagen zum Einstellen von Kraftfahrzeugen gemäß § 4 Abs. 3 WGarG 2008, sofern sie nicht gemäß § 4 Abs. 5 WGarG 2008 auf die bebaubare Fläche anzurechnen sind,
-4.
-Schwimmbecken gemäß Abs. 6a,
-5.
-Flächen, die mit Rasengittersteinen befestigt sind, zur Hälfte,
-6.
-Gartenterrassen,
-7.
-Zu- und Abluftanlagen für Tiefgaragen,
-8.
-Stützmauern, die nicht § 62a Abs. 1 Z 23 unterliegen,
-9.
-Rampenanlagen, sofern sie nicht der barrierefreien Erschließung dienen,
-10.
-Antennen-, Funk-, Parabol- und Solaranlagen,
-11.
-Unterirdische Bauwerke, sofern sie nicht eine Überdeckung mit durchwurzelbarem Substrat von mindestens 80 cm aufweisen,
-12.
-Nebengebäude, sofern sie nicht auf die bebaubare Fläche anzurechnen sind,
-13.
-Technische Infrastruktur für hocheffiziente alternative Systeme (§ 118 Abs. 3). (12)
-Bei Herstellung eines Neu-, Zu- oder Umbaues im Kleingartengebiet, im Kleingartengebiet für ganzjähriges Wohnen, auf Grundflächen für Badehütten, im Parkschutzgebiet, im Ausstellungsgelände, auf Lagerplätzen und Ländeflächen sowie bei Herstellung von Neu-, Zu- und Umbauten beziehungsweise der Errichtung von sonstigen Bauwerken auf Sport- und Spielplätzen tritt nach den selben Grundsätzen die Verpflichtung ein, einen Gehsteig herzustellen, jedoch nur in einfachster Ausführung und in einer Breite von höchstens 1,50 m. (12)
-Im Erholungsgebiet - Grundflächen für Badehütten dürfen, wenn der Bebauungsplan nicht anderes bestimmt (§ 5 Abs. 4 lit. e), nur ebenerdige Badehütten mit einer bebauten Fläche von nicht mehr als 35 m2 errichtet werden. (8)
-Im Erholungsgebiet - Grundflächen für Badehütten darf, wenn der Bebauungsplan nicht anderes bestimmt (§ 5 Abs. 4 lit. e), kein Bauteil den tiefsten Punkt des anschließenden Geländes um mehr als 4 m überragen.
+(3)
+Ist im Bebauungsplan die Gebäudehöhe als absolute Höhe über Wiener Null festgesetzt, darf keine oberste Schnittlinie einer Außenwandfläche mit der Oberfläche des Daches über dieser absoluten Höhe liegen. Giebelflächen zählen bei dieser Ermittlung mit; jedoch bleiben je einzelner Giebelfläche in der Bauklasse I in der offenen, offenen oder gekuppelten sowie in der gekuppelten Bauweise und im Gartensiedlungsgebiet höchstens 25 m², je Gebäude höchstens 50 m², ansonsten je einzelner Giebelfläche höchstens 50 m², je Gebäude höchstens 100 m² außer Betracht. Der oberste Abschluss des Daches darf, sofern der Bebauungsplan nicht anderes bestimmt, in Wohngebieten der Bauklasse I in der offenen, offenen oder gekuppelten bzw. gekuppelten Bauweise keinesfalls höher als 4,5 m, ansonsten keinesfalls höher als 7,5 m über der zulässigen Gebäudehöhe liegen.
+
+(5)
+An zum Zeitpunkt des Inkrafttretens der Wiener Bautechnikverordnung 2020 – WBTV 2020, LGBl. für Wien Nr. 4/2020, bereits bestehenden Gebäuden dürfen Wärmedämmungen sowie die für die Begrünung von Fassaden notwendigen technischen Systeme bis 20 cm über Fluchtlinien und in Abstandsflächen sowie in Abstände gemäß § 79 Abs. 5 vorragen. Bei einer Kombination beider Maßnahmen ist ein Überragen bis 30 cm zulässig. Zur Anbringung einer Wärmedämmung, zur Herstellung einer Hinterlüftungsebene oder einer Kombination dieser Maßnahmen darf bei diesen Gebäuden die bestehende Gebäudehöhe bzw. der oberste Gebäudeabschluss um nicht mehr als 30 cm überschritten werden.
+
+(8)
+Beim nachträglichen Einbau von Flächenwärmeabgabesystemen im Zuge der Dekarbonisierung von im Zeitpunkt des Inkrafttretens der Wiener Bautechnikverordnung 2020 – WBTV 2020, LGBl. für Wien Nr. 4/2020, bereits bestehenden Gebäuden, gelten die Anforderungen an die lichte Raumhöhe in Aufenthaltsräumen als erfüllt, wenn diese mindestens 2,40 m beträgt.
