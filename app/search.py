@@ -6,6 +6,8 @@ import os
 from pathlib import Path
 import numpy as np
 
+np.random.seed(42)
+
 def load_env_file(filepath):
     with open(filepath) as f:
         for line in f:
@@ -87,6 +89,10 @@ class Search:
         # Generate embedding for the query
         print(f"Generating embedding for the query...")
         query_embedding = self.embedding.create_embeddings([query], batch_size=1)[0].tolist()
+
+        # Normalize the query embedding
+        query_embedding = query_embedding / np.linalg.norm(query_embedding)
+        query_embedding = query_embedding.tolist()
 
         print(f"Embedding creation finished, performing vector search...")
         # Perform a vector search on Elasticsearch

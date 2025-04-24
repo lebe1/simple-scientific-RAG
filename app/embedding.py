@@ -6,7 +6,8 @@ from transformers import AutoModel, AutoTokenizer
 
 FILE_PATH = os.path.dirname(os.path.abspath(__file__))
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = 'max_split_size_mb:256'
-
+np.random.seed(42)
+torch.manual_seed(42)
 
 class Embedding:
     def __init__(self, model, spacy_model, chunk_size_in_kb):
@@ -84,7 +85,12 @@ class Embedding:
         print(f"Sample embedding shape: {embeddings[0].shape}")
         print(f"Sample embedding non-zero values: {np.count_nonzero(embeddings[0])}")
 
-        return np.array(embeddings)
+        embeddings = np.array(embeddings)
+
+        # Add normalization of vectors for consistent output in cosine similarity
+        embeddings = embeddings / np.linalg.norm(embeddings, axis=1, keepdims=True)
+
+        return embeddings
 
     def save(self, embeddings):
         path = os.path.join(FILE_PATH, self.file_name)

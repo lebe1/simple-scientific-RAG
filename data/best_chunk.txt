@@ -1,8 +1,14 @@
-(3)
-Ist im Bebauungsplan die Gebäudehöhe als absolute Höhe über Wiener Null festgesetzt, darf keine oberste Schnittlinie einer Außenwandfläche mit der Oberfläche des Daches über dieser absoluten Höhe liegen. Giebelflächen zählen bei dieser Ermittlung mit; jedoch bleiben je einzelner Giebelfläche in der Bauklasse I in der offenen, offenen oder gekuppelten sowie in der gekuppelten Bauweise und im Gartensiedlungsgebiet höchstens 25 m², je Gebäude höchstens 50 m², ansonsten je einzelner Giebelfläche höchstens 50 m², je Gebäude höchstens 100 m² außer Betracht. Der oberste Abschluss des Daches darf, sofern der Bebauungsplan nicht anderes bestimmt, in Wohngebieten der Bauklasse I in der offenen, offenen oder gekuppelten bzw. gekuppelten Bauweise keinesfalls höher als 4,5 m, ansonsten keinesfalls höher als 7,5 m über der zulässigen Gebäudehöhe liegen.
+(6a)
+Schwimmbecken sind in gärtnerisch auszugestaltenden Flächen bis zu einem Gesamtausmaß von 60 m³ Rauminhalt zulässig und müssen von Nachbargrenzen einen Abstand von mindestens 3 m haben, sofern der Nachbar nicht einem geringeren Abstand zustimmt.
 
-(5)
-An zum Zeitpunkt des Inkrafttretens der Wiener Bautechnikverordnung 2020 – WBTV 2020, LGBl. für Wien Nr. 4/2020, bereits bestehenden Gebäuden dürfen Wärmedämmungen sowie die für die Begrünung von Fassaden notwendigen technischen Systeme bis 20 cm über Fluchtlinien und in Abstandsflächen sowie in Abstände gemäß § 79 Abs. 5 vorragen. Bei einer Kombination beider Maßnahmen ist ein Überragen bis 30 cm zulässig. Zur Anbringung einer Wärmedämmung, zur Herstellung einer Hinterlüftungsebene oder einer Kombination dieser Maßnahmen darf bei diesen Gebäuden die bestehende Gebäudehöhe bzw. der oberste Gebäudeabschluss um nicht mehr als 30 cm überschritten werden.
+(12)
+Bei Herstellung eines Neu-, Zu- oder Umbaues im Kleingartengebiet, im Kleingartengebiet für ganzjähriges Wohnen, auf Grundflächen für Badehütten, im Parkschutzgebiet, im Ausstellungsgelände, auf Lagerplätzen und Ländeflächen sowie bei Herstellung von Neu-, Zu- und Umbauten beziehungsweise der Errichtung von sonstigen Bauwerken auf Sport- und Spielplätzen tritt nach den selben Grundsätzen die Verpflichtung ein, einen Gehsteig herzustellen, jedoch nur in einfachster Ausführung und in einer Breite von höchstens 1,50 m.
+
+(12)
+Im Erholungsgebiet - Grundflächen für Badehütten dürfen, wenn der Bebauungsplan nicht anderes bestimmt (§ 5 Abs. 4 lit. e), nur ebenerdige Badehütten mit einer bebauten Fläche von nicht mehr als 35 m2 errichtet werden.
 
 (8)
-Beim nachträglichen Einbau von Flächenwärmeabgabesystemen im Zuge der Dekarbonisierung von im Zeitpunkt des Inkrafttretens der Wiener Bautechnikverordnung 2020 – WBTV 2020, LGBl. für Wien Nr. 4/2020, bereits bestehenden Gebäuden, gelten die Anforderungen an die lichte Raumhöhe in Aufenthaltsräumen als erfüllt, wenn diese mindestens 2,40 m beträgt.
+Im Erholungsgebiet - Grundflächen für Badehütten darf, wenn der Bebauungsplan nicht anderes bestimmt (§ 5 Abs. 4 lit. e), kein Bauteil den tiefsten Punkt des anschließenden Geländes um mehr als 4 m überragen.
+
+(5)
+Die durch Nebengebäude in Anspruch genommene Grundfläche ist auf die nach den gesetzlichen Ausnutzbarkeitsbestimmungen bebaubare Fläche und die die nach § 5 Abs. 4 lit. d durch den Bebauungsplan beschränkte bebaubare Fläche des Bauplatzes anzurechnen. Im Gartensiedlungsgebiet ist die mit einem Nebengebäude bebaute Grundfläche auf die Ausnutzbarkeitsbestimmungen eines Bauloses dann anzurechnen, wenn die bebaubare Fläche im Bebauungsplan mit mindestens 100 m2 festgesetzt ist.

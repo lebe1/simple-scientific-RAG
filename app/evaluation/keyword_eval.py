@@ -1,4 +1,4 @@
-class IndividualEval:
+class KeywordEval:
     def __init__(self, input: str, actual_output: str, expected_output: str, retrieval_context: str, index: int):
         self.input = input
         self.actual_output = actual_output

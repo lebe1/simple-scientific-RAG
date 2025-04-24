@@ -2,7 +2,7 @@ import argparse
 import requests
 from datetime import datetime, timedelta, timezone
 import json
-from individual_eval import IndividualEval
+from keyword_eval import KeywordEval
 
 def read_lines_from_file(filename):
     try:
@@ -73,7 +73,7 @@ def run_eval(top_k, embedding_model, llm_model, split_method):
 
         results = []
         for index in range(len(questions)):
-            eval = IndividualEval(
+            eval = KeywordEval(
                 input=questions[index],
                 actual_output=answers[index],
                 expected_output=references[index],

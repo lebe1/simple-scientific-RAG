@@ -68,13 +68,23 @@ Make sure you have Git, Python 3.12+ and Docker installed on your machine.
     python -m spacy download de_core_news_lg
     ```
 
-8. **Creating the index**
+8. **Creating the embedding vectors and their index**
 
+    You have several arguments to pass here. You can decide between three splitting criteria.
+    1. `create-embeddings` splits the text until the maximum chunk size is reached
+    2. `create-embeddings-by-article` splits the text at each article
+    3. `create-embeddings-by-subarticle` splits the text at each subarticle
+    4. `--chunk-size` defines the chunk size
+    5. `--model` defines the embedding model
+    
+    In the following several sample arguments are provided 
     ```bash
-    python app/workflow.py create-embeddings
+    python app/workflow.py create-embeddings --chunk-size 0.5 --model sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
+    python app/workflow.py create-embeddings-by-article --chunk-size 4.0 --model jinaai/jina-embeddings-v2-base-de
+    python app/workflow.py create-embeddings-by-subarticle --model sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
     ```
 
-    *For the experiments, create several indeces with one of the following Scripts*
+    For the experiments, you can also create several indeces with one of the following Scripts
 
     ```bash
     ./run_workflow_create_split_method_index.sh
@@ -165,7 +175,7 @@ python visualize_qualitative_eval.py
 
 Which will store the evaluation results under `data/evaluation_results_final`.
 
-## Running the individual evaluation
+## Running the keyword evaluation
 
 IMPORTANT: Make sure all docker container as well as the FastAPI App is running in a terminal via `uvicorn main:app --reload`.
 
@@ -174,7 +184,7 @@ The other two arguments are there to record the embedding chunking method that h
 
 ```bash
 cd app/evaluation;
-python question_query.py   --embedding-model jinaai/jina-embeddings-v2-base-de   --llm-model llama3.2   --select-top-k 3 5   --splitting-method SUBARTICLE
+python question_query.py   --embedding-model sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2   --llm-model llama3.2   --select-top-k 3 5   --splitting-method SUBARTICLE
 ```
 
 ### Visualizing the results
@@ -182,7 +192,7 @@ python question_query.py   --embedding-model jinaai/jina-embeddings-v2-base-de  
 Make sure the PATH variable is set correctly
 
 ```bash
-python visualize_individual_eval.py
+python visualize_keyword_eval.py
 ```
 
 

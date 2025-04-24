@@ -1,1 +1,3 @@
 1. Ein Gebäude in Bauklasse I darf maximal 7,50 Meter hoch sein.
+2. Die maximale Dachneigung beträgt 25 Grad.
+3. Einkaufszentren sind Bauvorhaben mit Räumen, die überwiegend für das Ausstellen und den Verkauf von Waren beziehungsweise für das damit im Zusammenhang stehende Erbringen von Dienstleistungen bestimmt sind, soweit die Fläche dieser Räume zusammen mehr als 1.600 m², im „Gemischten Baugebiet – Betriebsbaugebiet“ mehr als 1.000 m² beträgt.
