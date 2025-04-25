@@ -87,7 +87,6 @@ Make sure you have Git, Python 3.12+ and Docker installed on your machine.
     For the experiments, you can also create several indeces with one of the following Scripts
 
     ```bash
-    ./run_workflow_create_split_method_index.sh
     ./run_workflow_create_index_small
     ./run_workflow_create_index
     ```

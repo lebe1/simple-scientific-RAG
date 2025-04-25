@@ -1,0 +1,61 @@
+[
+    {
+        "index": 1,
+        "output_score": 0,
+        "retrieval_score": 1
+    },
+    {
+        "index": 2,
+        "output_score": 1,
+        "retrieval_score": 1
+    },
+    {
+        "index": 3,
+        "output_score": 0,
+        "retrieval_score": 1
+    },
+    {
+        "index": 4,
+        "output_score": 1,
+        "retrieval_score": 1
+    },
+    {
+        "index": 5,
+        "output_score": 1,
+        "retrieval_score": 0
+    },
+    {
+        "index": 6,
+        "output_score": 1,
+        "retrieval_score": 0
+    },
+    {
+        "index": 7,
+        "output_score": 1,
+        "retrieval_score": 0
+    },
+    {
+        "index": 8,
+        "output_score": 1,
+        "retrieval_score": 0
+    },
+    {
+        "index": 9,
+        "output_score": 1,
+        "retrieval_score": 1
+    },
+    {
+        "index": 10,
+        "output_score": 0,
+        "retrieval_score": 0
+    },
+    {
+        "index": 11,
+        "output_score": 0,
+        "retrieval_score": 0
+    },
+    {
+        "total_output_score": 7,
+        "total_retrieval_score": 5
+    }
+]

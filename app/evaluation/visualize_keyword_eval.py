@@ -5,7 +5,7 @@ import os
 from glob import glob
 
 # Either manually list files or use glob to auto-find them
-json_folder = '../../data/individual_evaluation_results/'  # Folder containing JSON files
+json_folder = '../../data/keyword_evaluation_results/'  # Folder containing JSON files
 json_files = glob(os.path.join(json_folder, '*.json'))
 
 def plot_scores_from_json(json_path):
